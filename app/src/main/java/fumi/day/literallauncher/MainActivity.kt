@@ -62,6 +62,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -136,6 +137,14 @@ fun LiteralLauncherScreen() {
     val prefs = remember { context.getSharedPreferences("launcher_prefs", Context.MODE_PRIVATE) }
     val config = LocalConfiguration.current
 
+    // --- Slot Management (Bug Fix) ---
+    val slotIds = listOf(SLOT_TOP_LEFT, SLOT_MID_LEFT, SLOT_BOT_LEFT, SLOT_TOP_RIGHT, SLOT_MID_RIGHT, SLOT_BOT_RIGHT, SLOT_DOUBLE_TAP, SLOT_CLOCK, SLOT_DATE, SLOT_BATTERY)
+    val slotStates = remember {
+        mutableStateMapOf<String, String?>().apply {
+            slotIds.forEach { id -> put(id, prefs.getString(id, null)) }
+        }
+    }
+
     var globalScale by remember { mutableFloatStateOf(prefs.getFloat(SET_GLOBAL_SCALE, 1.0f)) }
     var showClock by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_CLOCK, true)) }
     var showDate by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_DATE, true)) }
@@ -173,20 +182,29 @@ fun LiteralLauncherScreen() {
         }
 
         AnimatedVisibility(visible = isDrawerOpen, enter = fadeIn(animationSpec = tween(150)), exit = fadeOut(animationSpec = tween(150))) {
-            AppDrawer(screenW, globalScale, currentFont, fontIndex, fontNames, showClock, showDate, showBattery, onSettingsChange = { k, v ->
-                when(k) { SET_GLOBAL_SCALE -> globalScale = v as Float; SET_SHOW_CLOCK -> showClock = v as Boolean; SET_SHOW_DATE -> showDate = v as Boolean; SET_SHOW_BATTERY -> showBattery = v as Boolean; SET_FONT_INDEX -> fontIndex = v as Int }
-            }, onAppClick = { isDrawerOpen = false }, onReturnToHome = { isDrawerOpen = false }, onOpenSlotPicker = { showPickerSlot = it })
+            AppDrawer(screenW, globalScale, currentFont, fontIndex, fontNames, showClock, showDate, showBattery,
+                slotStates = slotStates, // Added
+                onSettingsChange = { k, v ->
+                    when(k) { SET_GLOBAL_SCALE -> globalScale = v as Float; SET_SHOW_CLOCK -> showClock = v as Boolean; SET_SHOW_DATE -> showDate = v as Boolean; SET_SHOW_BATTERY -> showBattery = v as Boolean; SET_FONT_INDEX -> fontIndex = v as Int }
+                }, onAppClick = { isDrawerOpen = false }, onReturnToHome = { isDrawerOpen = false }, onOpenSlotPicker = { showPickerSlot = it })
         }
 
         if (showPickerSlot != null) {
-            AppPicker(showPickerSlot!!, currentFont, globalScale, { showPickerSlot = null }, { pkg -> prefs.edit { putString(showPickerSlot, pkg) }; showPickerSlot = null })
+            AppPicker(showPickerSlot!!, currentFont, globalScale, { showPickerSlot = null }, { pkg ->
+                prefs.edit { putString(showPickerSlot, pkg) }
+                slotStates[showPickerSlot!!] = pkg // UI state update
+                showPickerSlot = null
+            })
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontIndex: Int, fontNames: List<String>, showClock: Boolean, showDate: Boolean, showBattery: Boolean, onSettingsChange: (String, Any) -> Unit, onAppClick: () -> Unit, onReturnToHome: () -> Unit, onOpenSlotPicker: (String) -> Unit) {
+fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontIndex: Int, fontNames: List<String>,
+              showClock: Boolean, showDate: Boolean, showBattery: Boolean,
+              slotStates: Map<String, String?>, // Added
+              onSettingsChange: (String, Any) -> Unit, onAppClick: () -> Unit, onReturnToHome: () -> Unit, onOpenSlotPicker: (String) -> Unit) {
     val context = LocalContext.current; val prefs = remember { context.getSharedPreferences("launcher_prefs", Context.MODE_PRIVATE) }
     val listState = rememberLazyListState(); val accentColor = Color(0xFFBB86FC)
 
@@ -201,9 +219,7 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
     }
     val visibleApps = allApps.filter { it.first !in chestAppsSet }
 
-    // 全面を覆う背景Box: タップでホームに戻る（スワイプはLazyColumnに任せるためnestedScrollは削除）
     Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { onReturnToHome() }) {
-        // App List
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(horizontal = (screenW * 0.12f).dp, vertical = 80.dp)) {
             items(visibleApps.size) { i ->
                 val (pkg, name) = visibleApps[i]
@@ -213,12 +229,10 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
             }
         }
 
-        // Chest Button
         Box(modifier = Modifier.align(Alignment.BottomEnd).padding(30.dp).border(1.dp, Color.DarkGray, RoundedCornerShape(12.dp)).clickable { showMainChest = true }.padding(16.dp)) {
             Text(safeLower("chest"), color = Color.Gray, fontFamily = currentFont)
         }
 
-        // --- Dialogs ---
         if (selectedAppForMenu != null) {
             val (pkg, name) = selectedAppForMenu!!
             AlertDialog(onDismissRequest = { selectedAppForMenu = null }, containerColor = Color(0xFF111111),
@@ -270,7 +284,8 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
                     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                         val slots = listOf(SLOT_TOP_LEFT to "top left", SLOT_MID_LEFT to "mid left", SLOT_BOT_LEFT to "bot left", SLOT_TOP_RIGHT to "top right", SLOT_MID_RIGHT to "mid right", SLOT_BOT_RIGHT to "bot right", SLOT_DOUBLE_TAP to "double tap", SLOT_CLOCK to "clock", SLOT_DATE to "date", SLOT_BATTERY to "battery")
                         slots.forEach { (id, label) ->
-                            val p = prefs.getString(id, null); val n = allApps.find { it.first == p }?.second ?: "none"
+                            val p = slotStates[id] // Using slotStates for reactive UI update
+                            val n = allApps.find { it.first == p }?.second ?: "none"
                             Column(modifier = Modifier.fillMaxWidth().clickable { onOpenSlotPicker(id) }.padding(vertical = 8.dp)) {
                                 Text(safeLower(label), color = accentColor, fontSize = 14.sp)
                                 Text(safeLower(n), color = Color.Gray, fontSize = 12.sp)
