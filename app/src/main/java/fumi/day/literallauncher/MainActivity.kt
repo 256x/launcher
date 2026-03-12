@@ -137,7 +137,6 @@ fun LiteralLauncherScreen() {
     val prefs = remember { context.getSharedPreferences("launcher_prefs", Context.MODE_PRIVATE) }
     val config = LocalConfiguration.current
 
-    // --- Slot Management (Bug Fix) ---
     val slotIds = listOf(SLOT_TOP_LEFT, SLOT_MID_LEFT, SLOT_BOT_LEFT, SLOT_TOP_RIGHT, SLOT_MID_RIGHT, SLOT_BOT_RIGHT, SLOT_DOUBLE_TAP, SLOT_CLOCK, SLOT_DATE, SLOT_BATTERY)
     val slotStates = remember {
         mutableStateMapOf<String, String?>().apply {
@@ -183,7 +182,7 @@ fun LiteralLauncherScreen() {
 
         AnimatedVisibility(visible = isDrawerOpen, enter = fadeIn(animationSpec = tween(150)), exit = fadeOut(animationSpec = tween(150))) {
             AppDrawer(screenW, globalScale, currentFont, fontIndex, fontNames, showClock, showDate, showBattery,
-                slotStates = slotStates, // Added
+                slotStates = slotStates,
                 onSettingsChange = { k, v ->
                     when(k) { SET_GLOBAL_SCALE -> globalScale = v as Float; SET_SHOW_CLOCK -> showClock = v as Boolean; SET_SHOW_DATE -> showDate = v as Boolean; SET_SHOW_BATTERY -> showBattery = v as Boolean; SET_FONT_INDEX -> fontIndex = v as Int }
                 }, onAppClick = { isDrawerOpen = false }, onReturnToHome = { isDrawerOpen = false }, onOpenSlotPicker = { showPickerSlot = it })
@@ -192,7 +191,7 @@ fun LiteralLauncherScreen() {
         if (showPickerSlot != null) {
             AppPicker(showPickerSlot!!, currentFont, globalScale, { showPickerSlot = null }, { pkg ->
                 prefs.edit { putString(showPickerSlot, pkg) }
-                slotStates[showPickerSlot!!] = pkg // UI state update
+                slotStates[showPickerSlot!!] = pkg
                 showPickerSlot = null
             })
         }
@@ -203,7 +202,7 @@ fun LiteralLauncherScreen() {
 @Composable
 fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontIndex: Int, fontNames: List<String>,
               showClock: Boolean, showDate: Boolean, showBattery: Boolean,
-              slotStates: Map<String, String?>, // Added
+              slotStates: Map<String, String?>,
               onSettingsChange: (String, Any) -> Unit, onAppClick: () -> Unit, onReturnToHome: () -> Unit, onOpenSlotPicker: (String) -> Unit) {
     val context = LocalContext.current; val prefs = remember { context.getSharedPreferences("launcher_prefs", Context.MODE_PRIVATE) }
     val listState = rememberLazyListState(); val accentColor = Color(0xFFBB86FC)
@@ -215,17 +214,26 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
 
     val allApps = remember {
         val intent = Intent(Intent.ACTION_MAIN, null).apply { addCategory(Intent.CATEGORY_LAUNCHER) }
-        context.packageManager.queryIntentActivities(intent, 0).map { it.activityInfo.packageName to it.loadLabel(context.packageManager).toString() }.sortedBy { safeLower(it.second) }
+        context.packageManager.queryIntentActivities(intent, 0).map { it.activityInfo.packageName to it.loadLabel(context.packageManager).toString() }
     }
-    val visibleApps = allApps.filter { it.first !in chestAppsSet }
+
+    // --- Sorted by Display Name (Bug Fix) ---
+    val visibleApps = remember(chestAppsSet, showRenameDialog) {
+        allApps
+            .filter { it.first !in chestAppsSet }
+            .map { (pkg, name) ->
+                val displayName = prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name
+                pkg to displayName
+            }
+            .sortedBy { safeLower(it.second) }
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { onReturnToHome() }) {
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(horizontal = (screenW * 0.12f).dp, vertical = 80.dp)) {
             items(visibleApps.size) { i ->
-                val (pkg, name) = visibleApps[i]
-                val displayName = prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name
+                val (pkg, displayName) = visibleApps[i]
                 Text(text = safeLower(displayName), color = Color.White, fontSize = (screenW * 0.045f * globalScale).sp, fontFamily = currentFont,
-                    modifier = Modifier.fillMaxWidth().combinedClickable(onClick = { launchMuDirect(context, pkg); onAppClick() }, onLongClick = { selectedAppForMenu = pkg to name }).padding(vertical = 12.dp))
+                    modifier = Modifier.fillMaxWidth().combinedClickable(onClick = { launchMuDirect(context, pkg); onAppClick() }, onLongClick = { selectedAppForMenu = pkg to displayName }).padding(vertical = 12.dp))
             }
         }
 
@@ -284,8 +292,10 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
                     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                         val slots = listOf(SLOT_TOP_LEFT to "top left", SLOT_MID_LEFT to "mid left", SLOT_BOT_LEFT to "bot left", SLOT_TOP_RIGHT to "top right", SLOT_MID_RIGHT to "mid right", SLOT_BOT_RIGHT to "bot right", SLOT_DOUBLE_TAP to "double tap", SLOT_CLOCK to "clock", SLOT_DATE to "date", SLOT_BATTERY to "battery")
                         slots.forEach { (id, label) ->
-                            val p = slotStates[id] // Using slotStates for reactive UI update
-                            val n = allApps.find { it.first == p }?.second ?: "none"
+                            val p = slotStates[id]
+                            val n = allApps.find { it.first == p }?.let { (pkg, name) ->
+                                prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name
+                            } ?: "none"
                             Column(modifier = Modifier.fillMaxWidth().clickable { onOpenSlotPicker(id) }.padding(vertical = 8.dp)) {
                                 Text(safeLower(label), color = accentColor, fontSize = 14.sp)
                                 Text(safeLower(n), color = Color.Gray, fontSize = 12.sp)
@@ -299,12 +309,14 @@ fun AppDrawer(screenW: Int, globalScale: Float, currentFont: FontFamily, fontInd
             AlertDialog(onDismissRequest = { showChestItems = false }, containerColor = Color(0xFF111111),
                 title = { Text(safeLower("CHEST APPS"), color = accentColor, fontFamily = currentFont) },
                 text = {
-                    val appsInChest = allApps.filter { it.first in chestAppsSet }
+                    val appsInChest = allApps.filter { it.first in chestAppsSet }.map { (pkg, name) ->
+                        pkg to (prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name)
+                    }.sortedBy { safeLower(it.second) }
+
                     if (appsInChest.isEmpty()) { Text(safeLower("chest is empty"), color = Color.Gray) }
                     LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
                         items(appsInChest.size) { i ->
-                            val (pkg, name) = appsInChest[i]
-                            val displayName = prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name
+                            val (pkg, displayName) = appsInChest[i]
                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().clickable {
                                 launchMuDirect(context, pkg); onAppClick(); showChestItems = false; showMainChest = false
                             }.padding(vertical = 8.dp)) {
@@ -349,10 +361,12 @@ fun launchMuDirect(context: Context, pkg: String) {
 
 @Composable
 fun AppPicker(slotName: String, currentFont: FontFamily, globalScale: Float, onDismiss: () -> Unit, onSelect: (String) -> Unit) {
-    val context = LocalContext.current
+    val context = LocalContext.current; val prefs = remember { context.getSharedPreferences("launcher_prefs", Context.MODE_PRIVATE) }
     val apps = remember {
         val intent = Intent(Intent.ACTION_MAIN, null).apply { addCategory(Intent.CATEGORY_LAUNCHER) }
-        context.packageManager.queryIntentActivities(intent, 0).map { it.activityInfo.packageName to it.loadLabel(context.packageManager).toString() }.sortedBy { safeLower(it.second) }
+        context.packageManager.queryIntentActivities(intent, 0).map { (it.activityInfo.packageName to it.loadLabel(context.packageManager).toString()) }
+            .map { (pkg, name) -> pkg to (prefs.getString("${PREF_RENAME_PREFIX}$pkg", name) ?: name) }
+            .sortedBy { safeLower(it.second) }
     }
     AlertDialog(onDismissRequest = onDismiss, containerColor = Color(0xFF111111), title = { Text(safeLower("set $slotName"), color = Color.White, fontFamily = currentFont) }, text = { LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) { items(apps.size) { i -> Text(safeLower(apps[i].second), color = Color.LightGray, fontSize = (16 * globalScale).sp, modifier = Modifier.fillMaxWidth().clickable { onSelect(apps[i].first) }.padding(vertical = 12.dp)) } } }, confirmButton = { TextButton(onClick = onDismiss) { Text(safeLower("cancel")) } })
 }
