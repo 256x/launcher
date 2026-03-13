@@ -20,8 +20,9 @@ A text-based launcher.
 - **Gestures**: Double-tap for quick action, swipe for drawer.
 
 ## Credits
-- Inspired by [μ launcher](https://github.com/v-shane/mu) by v-shane.
-
+- **Inspired by [μ launcher](https://github.com/v-shane/mu) by v-shane.**
+  As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose. 
+  Literal Launcher was born out of my personal need for integrated **Date and Battery displays**—features I felt were missing—and my desire to challenge myself by crafting the ultimate minimalist environment.
 ## Build
 - Kotlin / Jetpack Compose
 - Target: Android 8.0+
