@@ -9,6 +9,9 @@ A text-based launcher.
   <img src="https://github.com/user-attachments/assets/0131ca25-8a78-46bf-b771-c86913dad800" width="180" />
 </p>
 
+[User Guide](./docs/USER_GUIDE.md)
+
+
 ## Features
 - **App Slots**: Assign apps to 10 customizable screen positions.
 - **Customization**: Change font (built-in Scope One support) and UI scale.
