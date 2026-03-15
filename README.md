@@ -21,7 +21,6 @@ https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 - **Customization**: Change font (built-in Scope One support) and UI scale.
 - **App Chest**: Archive rarely used apps in a secondary, directly-launchable space.
 - **Renaming**: Custom display names for any app.
-- **Gestures**: Double-tap for quick action, swipe for drawer.
 
 ## Why no search?
 Literal Launcher is designed for intentionality, not convenience.
@@ -55,7 +54,7 @@ Literal Launcher isn't about finding apps faster. It's about needing to find the
 
 This launcher may appeal to people who:
 - want a distraction-free phone
-- prefer fixed muscle memory over search
+- prefer fixed tap targets over search
 - like minimalist interfaces
 
 ## Credits
@@ -65,8 +64,7 @@ This launcher may appeal to people who:
 
 ## Development
 
-Built with Kotlin and Jetpack Compose.
-AI tools were occasionally used for reference.
+Built with Kotlin and Jetpack Compose, developed in Android Studio with Gemini as a reference throughout the process.
 
 ## Build
 - Kotlin / Jetpack Compose
