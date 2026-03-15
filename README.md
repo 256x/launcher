@@ -25,6 +25,13 @@ A search bar encourages mindless app-opening; Literal Launcher doesn't.
 Instead, use the Renaming feature to curate your own priority list —
 prefix an app with 'a_' to bring it to the top, or 'z_' to push it down.
 It's a small friction that makes you more deliberate about what you launch.
+## Why no gestures?
+Gestures require muscle memory and are often hidden. Literal Launcher is built 
+on a single principle: **Tap what you see**.
+Every element on your screen is a direct target — the clock, the date, the 
+battery level, and six positional slots. That's 10 apps, always one tap away, 
+with zero learning curve. The bottom center opens your notification panel.
+No complex swipes. No hidden shortcuts. Just intentional taps.
 
 ## The "Chest": Not for Hiding, but for Archiving
 Most launchers have a "Hide Apps" feature — but to use a hidden app,
