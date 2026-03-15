@@ -15,7 +15,7 @@ A text-based launcher.
 ## Features
 - **App Slots**: Assign apps to 10 customizable screen positions.
 - **Customization**: Change font (built-in Scope One support) and UI scale.
-- **App Chest**: Hide rarely used apps from the main list.
+- **App Chest**: Archive rarely used apps in a secondary, directly-launchable space.
 - **Renaming**: Custom display names for any app.
 - **Gestures**: Double-tap for quick action, swipe for drawer.
 
