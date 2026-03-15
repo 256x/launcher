@@ -19,6 +19,27 @@ A text-based launcher.
 - **Renaming**: Custom display names for any app.
 - **Gestures**: Double-tap for quick action, swipe for drawer.
 
+## Why no search?
+Literal Launcher is designed for intentionality, not convenience.
+A search bar encourages mindless app-opening; Literal Launcher doesn't.
+Instead, use the Renaming feature to curate your own priority list —
+prefix an app with 'a_' to bring it to the top, or 'z_' to push it down.
+It's a small friction that makes you more deliberate about what you launch.
+
+## The "Chest": Not for Hiding, but for Archiving
+Most launchers have a "Hide Apps" feature — but to use a hidden app,
+you have to dig into settings just to unhide it first.
+
+Literal Launcher introduces the **Chest**: a secondary space for your "Tier 2" apps.
+
+- **Direct Launch**: Apps in the Chest are launchable directly, without moving them back.
+- **Zero Clutter**: Your main list stays strictly for "Tier 1" essentials.
+- **The No-Search Logic**: Curate your main list with Renaming, archive the rest in the Chest,
+  and your active app count stays low. When your environment is this organized,
+  a search bar becomes redundant.
+
+Literal Launcher isn't about finding apps faster. It's about needing to find them less.
+
 ## Credits
 - **Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie.**
   As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose. 
