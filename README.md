@@ -3,6 +3,9 @@
 A text-based launcher.
 
 <p align="center">
+https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
+</p>
+<p align="center">
   <img src="https://github.com/user-attachments/assets/3759bf42-1032-4588-a52e-f55dd4f8bb91" width="180" />
   <img src="https://github.com/user-attachments/assets/276bf507-6d17-4ac2-821e-b7befc1674f1" width="180" />
   <img src="https://github.com/user-attachments/assets/2cdc0876-c3fe-40ca-ae5f-70e1ee792f32" width="180" />
