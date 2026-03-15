@@ -1,6 +1,8 @@
 # Literal Launcher
 
-A text-based launcher.
+A minimalist text-based Android launcher.
+
+https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/3759bf42-1032-4588-a52e-f55dd4f8bb91" width="180" />
@@ -9,13 +11,13 @@ A text-based launcher.
   <img src="https://github.com/user-attachments/assets/0131ca25-8a78-46bf-b771-c86913dad800" width="180" />
 </p>
 
-https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
+
 
 [User Guide](./docs/USER_GUIDE.md)
 
 
 ## Features
-- **App Slots**: Assign apps to 10 customizable screen positions.
+- **App Slots**: Assign apps to 10 fixed launch positions on the screen.
 - **Customization**: Change font (built-in Scope One support) and UI scale.
 - **App Chest**: Archive rarely used apps in a secondary, directly-launchable space.
 - **Renaming**: Custom display names for any app.
@@ -26,13 +28,13 @@ Literal Launcher is designed for intentionality, not convenience.
 A search bar encourages mindless app-opening; Literal Launcher doesn't.
 Instead, use the Renaming feature to curate your own priority list —
 prefix an app with 'a_' to bring it to the top, or 'z_' to push it down.
-It's a small friction that makes you more deliberate about what you launch.
-## Why no gestures?
+It's a small amount of friction that makes you more deliberate about what you launch.
+## Why gestures are minimal?
 Gestures require muscle memory and are often hidden. Literal Launcher is built 
 on a single principle: **Tap what you see**.
 Every element on your screen is a direct target — the clock, the date, the 
-battery level, and six positional slots. That's 10 apps, always one tap away, 
-with zero learning curve. The bottom center opens your notification panel.
+battery level, and six positional slots. That's 10 launch targets, always one tap away — with zero learning curve.
+The bottom center opens your notification panel.
 No complex swipes. No hidden shortcuts. Just intentional taps.
 
 ## The "Chest": Not for Hiding, but for Archiving
@@ -49,6 +51,13 @@ Literal Launcher introduces the **Chest**: a secondary space for your "Tier 2" a
 
 Literal Launcher isn't about finding apps faster. It's about needing to find them less.
 
+## Who is this for?
+
+This launcher may appeal to people who:
+- want a distraction-free phone
+- prefer fixed muscle memory over search
+- like minimalist interfaces
+
 ## Credits
 - **Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie.**
   As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose. 
@@ -56,8 +65,8 @@ Literal Launcher isn't about finding apps faster. It's about needing to find the
 
 ## Development
 
-Developed in Android Studio with Gemini as a reference throughout the process — all design decisions and the overall concept are my own.
-
+Built with Kotlin and Jetpack Compose.
+AI tools were occasionally used for reference.
 
 ## Build
 - Kotlin / Jetpack Compose
