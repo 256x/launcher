@@ -24,6 +24,11 @@ A text-based launcher.
   As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose. 
   Literal Launcher was born out of my personal need for integrated **Date and Battery displays**—features I felt were missing—and my desire to challenge myself by crafting the ultimate minimalist environment.
 
+## Development
+
+Developed in Android Studio with Gemini as a reference throughout the process — all design decisions and the overall concept are my own.
+
+
 ## Build
 - Kotlin / Jetpack Compose
 - Target: Android 8.0+
