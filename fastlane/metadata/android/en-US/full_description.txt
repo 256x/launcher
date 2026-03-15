@@ -1,0 +1,15 @@
+Literal Launcher is a minimalist text-based Android launcher built with Jetpack Compose.
+
+Every element on the screen is a direct tap target — the clock, the date, the battery level, and six positional slots. That's 10 apps, always one tap away, with zero learning curve. The bottom center opens your notification panel.
+
+No complex swipes. No hidden shortcuts. Just intentional taps.
+
+Features:
+- App Slots: Assign apps to 10 fixed launch positions on the screen.
+- App Chest: Archive rarely used apps in a secondary, directly-launchable space.
+- Renaming: Custom display names for any app.
+- Customization: Change font and UI scale.
+
+The Chest is not for hiding apps — it's for archiving them. Apps in the Chest are launchable directly, without moving them back to the main list.
+
+Literal Launcher isn't about finding apps faster. It's about needing to find them less.

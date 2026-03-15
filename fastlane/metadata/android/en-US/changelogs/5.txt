@@ -1,0 +1,1 @@
+Remove Google dependency metadata from APK (IzzyOnDroid/F-Droid compatibility)

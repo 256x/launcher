@@ -5,15 +5,16 @@ plugins {
 
 android {
     namespace = "fumi.day.literallauncher"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
 
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
+    }
+
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
     }
 
     defaultConfig {
@@ -37,7 +38,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
+            // デバッグ情報を削除
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
