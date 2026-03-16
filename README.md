@@ -21,6 +21,7 @@ https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 - **Customization**: Change font (built-in Scope One support) and UI scale.
 - **App Chest**: Archive rarely used apps in a secondary, directly-launchable space.
 - **Renaming**: Custom display names for any app.
+- **Drawer Alignment**: Optionally place the app list on the right side for easier left-hand use.
 
 ## Why no search?
 Literal Launcher is designed for intentionality, not convenience.

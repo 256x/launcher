@@ -30,8 +30,8 @@ Access by tapping the **"chest"** button at the bottom right of the drawer.
 * **UI Scale**: Adjust text size from 0.5x to 2.0x via slider.
 * **Font**: Cycle through built-in typefaces (Scope One, Sans, Serif, Monospace).
 * **Display Toggles**: Show/Hide Clock, Date, or Battery status.
+* **Drawer on Right**: Moves the app drawer to the right side for easier left-hand use.
 * **Assign Slots**: A centralized menu to manage all slot assignments.
 * **Chest Apps**: Manage and restore hidden apps.
-
 ---
 *Note: All text in the UI is intentionally forced to lowercase for aesthetic consistency.*
