@@ -68,5 +68,5 @@ Built with Kotlin and Jetpack Compose, developed in Android Studio with Gemini a
 
 ## Build
 - Kotlin / Jetpack Compose
-- Target: Android 8.0+
+- Target: Android 9.0+
 
