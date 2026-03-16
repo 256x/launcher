@@ -1,3 +1,11 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile: File = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -11,6 +19,15 @@ android {
         includeInBundle = false
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:/Users/fumi/Documents/AndroidKeys/literal-launcher.jks")
+            storePassword = localProperties["STORE_PASSWORD"].toString()
+            keyAlias = localProperties["KEY_ALIAS"].toString()
+            keyPassword = localProperties["KEY_PASSWORD"].toString()
+        }
+    }
+
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -21,25 +38,21 @@ android {
         applicationId = "fumi.day.literallauncher"
         minSdk = 28
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.0.5"
+        versionCode = 6
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            // コードの難読化と未使用コードの削除を有効化
             isMinifyEnabled = true
-            // 未使用リソースの削除
             isShrinkResources = true
-            // 最適化のルール
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // デバッグ情報を削除
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
