@@ -4,7 +4,7 @@ Life within five meters.
 
 A minimalist text-based Android launcher.
 
-<p align="center">
+<p>
   <a href="https://github.com/256x/launcher/releases/latest">
     <img src="https://img.shields.io/github/v/release/256x/launcher?label=GitHub%20Release">
   </a>
