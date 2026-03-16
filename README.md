@@ -4,6 +4,15 @@ Life within five meters.
 
 A minimalist text-based Android launcher.
 
+<p align="center">
+  <a href="https://github.com/256x/launcher/releases/latest">
+    <img src="https://img.shields.io/github/v/release/256x/launcher?label=GitHub%20Release" alt="GitHub release">
+  </a>
+  <a href="https://apt.izzysoft.de/packages/fumi.day.literallauncher">
+    <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="60" alt="Get it on IzzyOnDroid">
+  </a>
+</p>
+
 https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 
 <p align="center">
@@ -13,10 +22,7 @@ https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
   <img src="https://github.com/user-attachments/assets/0131ca25-8a78-46bf-b771-c86913dad800" width="180" />
 </p>
 
-
-
 [User Guide](./docs/USER_GUIDE.md)
-
 
 ## Features
 - **App Slots**: Assign apps to 10 fixed launch positions on the screen.
@@ -28,15 +34,21 @@ https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 ## Why no search?
 Literal Launcher is designed for intentionality, not convenience.
 A search bar encourages mindless app-opening; Literal Launcher doesn't.
+
 Instead, use the Renaming feature to curate your own priority list —
 prefix an app with 'a_' to bring it to the top, or 'z_' to push it down.
+
 It's a small amount of friction that makes you more deliberate about what you launch.
+
 ## Why gestures are minimal?
-Gestures require muscle memory and are often hidden. Literal Launcher is built 
+Gestures require muscle memory and are often hidden. Literal Launcher is built
 on a single principle: **Tap what you see**.
-Every element on your screen is a direct target — the clock, the date, the 
+
+Every element on your screen is a direct target — the clock, the date, the
 battery level, and six positional slots. That's 10 launch targets, always one tap away — with zero learning curve.
+
 The bottom center opens your notification panel.
+
 No complex swipes. No hidden shortcuts. Just intentional taps.
 
 ## The "Chest": Not for Hiding, but for Archiving
@@ -62,7 +74,7 @@ This launcher may appeal to people who:
 
 ## Credits
 - **Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie.**
-  As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose. 
+  As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose.
   Literal Launcher was born out of my personal need for integrated **Date and Battery displays**—features I felt were missing—and my desire to challenge myself by crafting the ultimate minimalist environment.
 
 ## Development
