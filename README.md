@@ -1,6 +1,7 @@
 # Literal Launcher
 
 Life within five meters.
+
 A minimalist text-based Android launcher.
 
 https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
