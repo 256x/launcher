@@ -36,12 +36,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -91,6 +91,7 @@ const val SLOT_BOT_LEFT = "slot_bl"; const val SLOT_BOT_RIGHT = "slot_br"
 const val SLOT_DOUBLE_TAP = "slot_double"
 const val SET_SHOW_CLOCK = "show_clock"; const val SET_SHOW_DATE = "show_date"; const val SET_SHOW_BATTERY = "show_battery"
 const val SET_FONT_INDEX = "font_index"; const val SET_GLOBAL_SCALE = "global_scale"
+const val SET_DRAWER_RIGHT = "drawer_right"
 const val PREF_CHEST_APPS = "chest_apps"
 const val PREF_RENAME_PREFIX = "rename_"
 
@@ -162,6 +163,7 @@ fun LiteralLauncherScreen() {
     var showClock by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_CLOCK, true)) }
     var showDate by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_DATE, true)) }
     var showBattery by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_BATTERY, true)) }
+    var drawerRight by remember { mutableStateOf(prefs.getBoolean(SET_DRAWER_RIGHT, false)) }
     var fontIndex by remember { mutableIntStateOf(prefs.getInt(SET_FONT_INDEX, 0)) }
 
     val fontFamilies = listOf(
@@ -302,6 +304,7 @@ fun LiteralLauncherScreen() {
                 showClock = showClock,
                 showDate = showDate,
                 showBattery = showBattery,
+                drawerRight = drawerRight,
                 slotStates = slotStates,
                 onSettingsChange = { key, value ->
                     when (key) {
@@ -309,6 +312,7 @@ fun LiteralLauncherScreen() {
                         SET_SHOW_CLOCK -> showClock = value as Boolean
                         SET_SHOW_DATE -> showDate = value as Boolean
                         SET_SHOW_BATTERY -> showBattery = value as Boolean
+                        SET_DRAWER_RIGHT -> drawerRight = value as Boolean
                         SET_FONT_INDEX -> fontIndex = value as Int
                     }
                 },
@@ -351,6 +355,7 @@ fun AppDrawer(
     showClock: Boolean,
     showDate: Boolean,
     showBattery: Boolean,
+    drawerRight: Boolean,
     slotStates: Map<String, String?>,
     onSettingsChange: (String, Any) -> Unit,
     onAppClick: () -> Unit,
@@ -399,40 +404,50 @@ fun AppDrawer(
                 indication = null
             ) { onReturnToHome() }
     ) {
-        LazyColumn(
-            state = listState,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = (screenW * 0.12f).dp, vertical = 80.dp)
         ) {
-            items(visibleApps.size) { i ->
-                val (pkg, displayName) = visibleApps[i]
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width((screenW * 0.76f).dp)
+                    .align(if (drawerRight) Alignment.TopEnd else Alignment.TopStart)
+            ) {
+                items(visibleApps.size) { i ->
+                    val (pkg, displayName) = visibleApps[i]
 
-                Box(
-                    modifier = Modifier.padding(vertical = 12.dp)
-                ) {
-                    Text(
-                        text = safeLower(displayName),
-                        color = Color.White,
-                        fontSize = (screenW * 0.045f * globalScale).sp,
-                        fontFamily = currentFont,
-                        modifier = Modifier.combinedClickable(
-                            onClick = {
-                                launchMuDirect(context, pkg)
-                                onAppClick()
-                            },
-                            onLongClick = {
-                                selectedAppForMenu = pkg to displayName
-                            }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        contentAlignment = if (drawerRight) Alignment.CenterEnd else Alignment.CenterStart
+                    ) {
+                        Text(
+                            text = safeLower(displayName),
+                            color = Color.White,
+                            fontSize = (screenW * 0.045f * globalScale).sp,
+                            fontFamily = currentFont,
+                            modifier = Modifier.combinedClickable(
+                                onClick = {
+                                    launchMuDirect(context, pkg)
+                                    onAppClick()
+                                },
+                                onLongClick = {
+                                    selectedAppForMenu = pkg to displayName
+                                }
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
 
         Box(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(if (drawerRight) Alignment.BottomStart else Alignment.BottomEnd)
                 .padding(30.dp)
                 .border(1.dp, Color.DarkGray, RoundedCornerShape(12.dp))
                 .clickable { showMainChest = true }
@@ -552,7 +567,8 @@ fun AppDrawer(
                         listOf(
                             (SET_SHOW_CLOCK to "show clock") to showClock,
                             (SET_SHOW_DATE to "show date") to showDate,
-                            (SET_SHOW_BATTERY to "show battery") to showBattery
+                            (SET_SHOW_BATTERY to "show battery") to showBattery,
+                            (SET_DRAWER_RIGHT to "drawer on right") to drawerRight
                         ).forEach { pair ->
                             val (labelPair, currentValue) = pair
                             val (key, label) = labelPair
@@ -563,7 +579,11 @@ fun AppDrawer(
                                     .fillMaxWidth()
                                     .clickable {
                                         onSettingsChange(key, !currentValue)
-                                        prefs.edit { putBoolean(key, !currentValue) }
+                                        when (key) {
+                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT -> {
+                                                prefs.edit { putBoolean(key, !currentValue) }
+                                            }
+                                        }
                                     }
                                     .padding(vertical = 4.dp)
                             ) {
@@ -571,7 +591,11 @@ fun AppDrawer(
                                     checked = currentValue,
                                     onCheckedChange = {
                                         onSettingsChange(key, it)
-                                        prefs.edit { putBoolean(key, it) }
+                                        when (key) {
+                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT -> {
+                                                prefs.edit { putBoolean(key, it) }
+                                            }
+                                        }
                                     },
                                     colors = CheckboxDefaults.colors(checkedColor = accentColor)
                                 )
