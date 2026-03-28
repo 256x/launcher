@@ -92,6 +92,7 @@ const val SLOT_DOUBLE_TAP = "slot_double"
 const val SET_SHOW_CLOCK = "show_clock"; const val SET_SHOW_DATE = "show_date"; const val SET_SHOW_BATTERY = "show_battery"
 const val SET_FONT_INDEX = "font_index"; const val SET_GLOBAL_SCALE = "global_scale"
 const val SET_DRAWER_RIGHT = "drawer_right"
+const val SET_SLOT_LOCK = "slot_lock"
 const val PREF_CHEST_APPS = "chest_apps"
 const val PREF_RENAME_PREFIX = "rename_"
 
@@ -160,6 +161,7 @@ fun LiteralLauncherScreen() {
     var showDate by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_DATE, true)) }
     var showBattery by remember { mutableStateOf(prefs.getBoolean(SET_SHOW_BATTERY, true)) }
     var drawerRight by remember { mutableStateOf(prefs.getBoolean(SET_DRAWER_RIGHT, false)) }
+    var slotsLocked by remember { mutableStateOf(prefs.getBoolean(SET_SLOT_LOCK, false)) }
     var fontIndex by remember { mutableIntStateOf(prefs.getInt(SET_FONT_INDEX, 0)) }
     val fontFamilies = listOf(
         FontFamily(Font(R.font.scopeone)),
@@ -239,10 +241,10 @@ fun LiteralLauncherScreen() {
                     }
                 }
             }
-            .pointerInput(Unit) {
+            .pointerInput(slotsLocked) {
                 detectTapGestures(
                     onDoubleTap = { launchMu(context, prefs, SLOT_DOUBLE_TAP) },
-                    onLongPress = { showPickerSlot = SLOT_DOUBLE_TAP }
+                    onLongPress = { if (!slotsLocked) showPickerSlot = SLOT_DOUBLE_TAP }
                 )
             }
     ) {
@@ -266,10 +268,10 @@ fun LiteralLauncherScreen() {
                     color = Color.White,
                     fontSize = (screenW * 0.07f * globalScale).sp,
                     fontFamily = currentFont,
-                    modifier = Modifier.pointerInput(Unit) {
+                    modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
                             onTap = { launchMu(context, prefs, SLOT_CLOCK) },
-                            onLongPress = { showPickerSlot = SLOT_CLOCK }
+                            onLongPress = { if (!slotsLocked) showPickerSlot = SLOT_CLOCK }
                         )
                     }
                 )
@@ -282,10 +284,10 @@ fun LiteralLauncherScreen() {
                     color = Color.White,
                     fontSize = (screenW * 0.045f * globalScale).sp,
                     fontFamily = currentFont,
-                    modifier = Modifier.pointerInput(Unit) {
+                    modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
                             onTap = { launchMu(context, prefs, SLOT_DATE) },
-                            onLongPress = { showPickerSlot = SLOT_DATE }
+                            onLongPress = { if (!slotsLocked) showPickerSlot = SLOT_DATE }
                         )
                     }
                 )
@@ -296,10 +298,10 @@ fun LiteralLauncherScreen() {
                     color = Color.White,
                     fontSize = (screenW * 0.045f * globalScale).sp,
                     fontFamily = currentFont,
-                    modifier = Modifier.pointerInput(Unit) {
+                    modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
                             onTap = { launchMu(context, prefs, SLOT_BATTERY) },
-                            onLongPress = { showPickerSlot = SLOT_BATTERY }
+                            onLongPress = { if (!slotsLocked) showPickerSlot = SLOT_BATTERY }
                         )
                     }
                 )
@@ -320,10 +322,10 @@ fun LiteralLauncherScreen() {
                         .fillMaxWidth(0.33f)
                         .fillMaxHeight(0.33f)
                         .align(align)
-                        .pointerInput(slot) {
+                        .pointerInput(slot, slotsLocked) {
                             detectTapGestures(
                                 onTap = { launchMu(context, prefs, slot) },
-                                onLongPress = { showPickerSlot = slot }
+                                onLongPress = { if (!slotsLocked) showPickerSlot = slot }
                             )
                         }
                 )
@@ -344,6 +346,7 @@ fun LiteralLauncherScreen() {
                 showDate = showDate,
                 showBattery = showBattery,
                 drawerRight = drawerRight,
+                slotsLocked = slotsLocked,
                 slotStates = slotStates,
                 allApps = allApps,
                 onSettingsChange = { key, value ->
@@ -353,6 +356,7 @@ fun LiteralLauncherScreen() {
                         SET_SHOW_DATE -> showDate = value as Boolean
                         SET_SHOW_BATTERY -> showBattery = value as Boolean
                         SET_DRAWER_RIGHT -> drawerRight = value as Boolean
+                        SET_SLOT_LOCK -> slotsLocked = value as Boolean
                         SET_FONT_INDEX -> fontIndex = value as Int
                     }
                 },
@@ -394,6 +398,7 @@ fun AppDrawer(
     showDate: Boolean,
     showBattery: Boolean,
     drawerRight: Boolean,
+    slotsLocked: Boolean,
     slotStates: Map<String, String?>,
     allApps: List<Pair<String, String>>,
     onSettingsChange: (String, Any) -> Unit,
@@ -589,7 +594,8 @@ fun AppDrawer(
                             (SET_SHOW_CLOCK to "show clock") to showClock,
                             (SET_SHOW_DATE to "show date") to showDate,
                             (SET_SHOW_BATTERY to "show battery") to showBattery,
-                            (SET_DRAWER_RIGHT to "drawer on right") to drawerRight
+                            (SET_DRAWER_RIGHT to "drawer on right") to drawerRight,
+                            (SET_SLOT_LOCK to "lock slots") to slotsLocked
                         ).forEach { pair ->
                             val (labelPair, currentValue) = pair
                             val (key, label) = labelPair
@@ -600,7 +606,7 @@ fun AppDrawer(
                                     .clickable {
                                         onSettingsChange(key, !currentValue)
                                         when (key) {
-                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT -> {
+                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT, SET_SLOT_LOCK -> {
                                                 prefs.edit { putBoolean(key, !currentValue) }
                                             }
                                         }
@@ -612,7 +618,7 @@ fun AppDrawer(
                                     onCheckedChange = {
                                         onSettingsChange(key, it)
                                         when (key) {
-                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT -> {
+                                            SET_SHOW_CLOCK, SET_SHOW_DATE, SET_SHOW_BATTERY, SET_DRAWER_RIGHT, SET_SLOT_LOCK -> {
                                                 prefs.edit { putBoolean(key, it) }
                                             }
                                         }
