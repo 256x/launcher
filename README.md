@@ -11,10 +11,10 @@ A minimalist text-based Android launcher.
 https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 
 <p>
-  <img src="https://github.com/user-attachments/assets/3759bf42-1032-4588-a52e-f55dd4f8bb91" width="180" />
-  <img src="https://github.com/user-attachments/assets/276bf507-6d17-4ac2-821e-b7befc1674f1" width="180" />
-  <img src="https://github.com/user-attachments/assets/2cdc0876-c3fe-40ca-ae5f-70e1ee792f32" width="180" />
-  <img src="https://github.com/user-attachments/assets/0131ca25-8a78-46bf-b771-c86913dad800" width="180" />
+<img width="180" alt="Home Screen" src="https://github.com/user-attachments/assets/5ec650ee-a9e6-411e-89ad-eae68a83c2b4" />
+<img width="180" alt="Apps Screen" src="https://github.com/user-attachments/assets/4eecf4d1-c967-4947-835f-39ebd1e55aa2" />
+<img width="180" alt="Chest Screen" src="https://github.com/user-attachments/assets/028113b5-a9bc-44c1-aac9-cf063efca5db" />
+<img width="180" alt="Settings Screen" src="https://github.com/user-attachments/assets/d65ed335-c826-445d-b4d9-a85c0a660670" />
 </p>
 
 [User Guide](./docs/USER_GUIDE.md)
