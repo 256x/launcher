@@ -8,8 +8,6 @@ A minimalist text-based Android launcher.
   <a href="https://github.com/256x/launcher/releases/latest"><img src="https://img.shields.io/github/v/release/256x/launcher?label=GitHub%20Release"></a>&nbsp;<a href="https://apt.izzysoft.de/packages/fumi.day.literallauncher"><img src="https://img.shields.io/badge/IzzyOnDroid-download-brightgreen"></a>&nbsp;<img src="https://img.shields.io/badge/Android-9%2B-blue">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">
 </p>
 
-https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
-
 <p>
 <img width="180" alt="Home Screen" src="https://github.com/user-attachments/assets/5ec650ee-a9e6-411e-89ad-eae68a83c2b4" />
 <img width="180" alt="Apps Screen" src="https://github.com/user-attachments/assets/4eecf4d1-c967-4947-835f-39ebd1e55aa2" />
