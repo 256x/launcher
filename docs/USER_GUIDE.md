@@ -1,37 +1,93 @@
 # Literal Launcher - User Guide
 
-This guide explains how to interact with the minimalist interface of Literal Launcher.
+## Home Screen
 
-## 1. Home Screen Gestures
-* **Swipe Up**: Open the App Drawer (App List).
-* **Double Tap**: Launch the app assigned to the "Double Tap" slot.
-* **Tap Bottom Center**: Expand the system notification panel. (Trigger area: bottom 30% width, 60dp height).
+The home screen shows your clock, date, and battery level in the center.
 
-## 2. App Slots (Quick Launch)
-The home screen consists of invisible interactive slots and text elements.
-* **Single Tap**: Launch the assigned app.
-* **Long Press**: Open the App Picker to assign or change the app for that slot.
+Around the edges are six invisible tap zones — top/middle/bottom on each side. Each can be assigned to an app.
 
-**Interactive Slots:**
-* **Screen Positions**: Top Left, Mid Left, Bottom Left, Top Right, Mid Right, Bottom Right.
-* **Status Elements**: Clock, Date, and Battery level text.
-* **Special**: Double-tap gesture slot.
+### Tapping
 
-## 3. App Drawer & Management
-Inside the App Drawer (Swipe up from Home):
-* **Single Tap**: Launch the app.
-* **Long Press**: Open the App Menu:
-    * **Rename**: Change the display name (rendered in lowercase).
-    * **Send to Chest**: Hide the app from the main list.
-    * **App Info**: Open system application settings.
+| Target | Single Tap | Long Press |
+|---|---|---|
+| Side slot (6 zones) | Launch assigned app | Assign app to slot |
+| Clock | Launch assigned app | Assign app to slot |
+| Date | Launch assigned app | Assign app to slot |
+| Battery | Launch assigned app | Assign app to slot |
+| Double-tap anywhere | Launch assigned app | Assign app to slot |
+| Bottom center | Expand notifications | — |
 
-## 4. The "Chest" (Settings)
-Access by tapping the **"chest"** button at the bottom right of the drawer.
-* **UI Scale**: Adjust text size from 0.5x to 2.0x via slider.
-* **Font**: Cycle through built-in typefaces (Scope One, Sans, Serif, Monospace).
-* **Display Toggles**: Show/Hide Clock, Date, or Battery status.
-* **Drawer on Right**: Moves the app drawer to the right side for easier left-hand use.
-* **Assign Slots**: A centralized menu to manage all slot assignments.
-* **Chest Apps**: Manage and restore hidden apps.
+### Swipe Up
+
+Swipe up from anywhere on the home screen to open the app list.
+
 ---
-*Note: All text in the UI is intentionally forced to lowercase for aesthetic consistency.*
+
+## App List
+
+A text-only alphabetical list of your installed apps.
+
+- **Tap**: Launch the app and return to home
+- **Long press**: Open the app menu
+- **Tap outside the list**: Return to home
+- **Settings gear (top right)**: Open settings
+
+### App Menu (long press)
+
+- **rename**: Change the display name shown in the list
+- **send to chest**: Remove the app from the main list and place it in the Chest
+- **app info**: Open system app settings
+
+### Renaming Tips
+
+All names are displayed in lowercase. Use prefixes to control sort order:
+
+- `a_` prefix → floats to the top of the list
+- `z_` prefix → sinks to the bottom
+
+---
+
+## The Chest
+
+The Chest holds apps you rarely use — out of sight, but directly launchable.
+
+Open the Chest by tapping the **chest** button at the bottom corner of the app list.
+
+- **Tap an app name**: Launch it directly
+- **restore**: Move the app back to the main list
+
+Unlike hidden apps in other launchers, Chest apps don't need to be "unhidden" before use. They're just one extra tap away.
+
+---
+
+## Settings
+
+Open settings by tapping the gear icon (top right of the app list).
+
+### Appearance
+
+- **Font**: Default / Serif / Mono / Scope
+- **Scale**: Adjust overall UI size
+
+### Colors
+
+- **Background**: Main screen and list background color
+- **Text**: App names, clock, date, battery
+- **Accent**: Chest title, buttons, highlights
+
+### Display
+
+Toggle visibility of **Clock**, **Date**, and **Battery** on the home screen.
+
+### Layout
+
+- **Controls on left**: Moves the app list and Chest button to the right side for left-hand use
+- **Lock slots**: Prevents accidental long-press slot reassignment
+
+### Slots
+
+Assign apps to all slots from a single screen — an alternative to long-pressing each zone individually.
+
+---
+
+*All text in the UI is displayed in lowercase.*

@@ -38,8 +38,8 @@ android {
         applicationId = "fumi.day.literallauncher"
         minSdk = 28
         targetSdk = 36
-        versionCode = 12
-        versionName = "1.1.2"
+        versionCode = 14
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

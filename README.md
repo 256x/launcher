@@ -19,64 +19,81 @@ https://github.com/user-attachments/assets/67d867d7-9682-4604-bb5b-9173ec510364
 
 [User Guide](./docs/USER_GUIDE.md)
 
+## Why?
+
+Humans can hold roughly 10 things in working memory.
+
+Most launchers ignore this. They give you grids of icons, folders, widgets, search bars — and call it productivity.
+
+But if your phone has 10 apps you actually use every day, you don't need any of that.
+
+You just need those 10, always one tap away.
+
+## The Idea
+
+**Assign your essentials to slots. Everything else fades into the background.**
+
+10 fixed positions. No search. No icons. Just text.
+
+Icons make your eyes wander. Text makes you read and decide.
+Swipe up reveals your full app list — your Tier 1, alphabetically sorted.
+Rarely-used apps go into the Chest: out of sight, but still directly launchable.
+
 ## Features
-- **App Slots**: Assign apps to 10 fixed launch positions on the screen.
-- **Customization**: Change font (built-in Scope One support) and UI scale.
-- **App Chest**: Archive rarely used apps in a secondary, directly-launchable space.
-- **Renaming**: Custom display names for any app.
-- **Drawer Alignment**: Optionally place the app list on the right side for easier left-hand use.
+
+- **App Slots**: Assign apps to 10 fixed launch positions on the screen
+- **Text-only list**: No icons. App names only, in your choice of font
+- **Chest**: A secondary space for Tier 2 apps — hidden but directly launchable
+- **Renaming**: Custom display names for any app
+- **Customize**: Font, UI scale, drawer alignment for left-hand use
+
+## Why no icons?
+
+Icons cause visual noise. Your eyes scan the grid looking for the right shape instead of reading what you want.
+
+Text forces a moment of intention. That's a feature, not a limitation.
 
 ## Why no search?
-Literal Launcher is designed for intentionality, not convenience.
-A search bar encourages mindless app-opening; Literal Launcher doesn't.
 
-Instead, use the Renaming feature to curate your own priority list —
-prefix an app with 'a_' to bring it to the top, or 'z_' to push it down.
+If you need to search for an app, it means your list is too long.
 
-It's a small amount of friction that makes you more deliberate about what you launch.
+Use Renaming to curate your Tier 1 list — prefix with `a_` to bring an app to the top, `z_` to push it down. Keep it short enough that search becomes unnecessary.
 
-## Why gestures are minimal?
-Gestures require muscle memory and are often hidden. Literal Launcher is built
-on a single principle: **Tap what you see**.
+## The Chest: not hidden, just backgrounded
 
-Every element on your screen is a direct target — the clock, the date, the
-battery level, and six positional slots. That's 10 launch targets, always one tap away — with zero learning curve.
+Most launchers let you hide apps — but hidden apps require a trip to settings to unhide before you can launch them.
 
-The bottom center opens your notification panel.
+The Chest works differently. Apps in the Chest are removed from your main list, but remain **directly launchable** from the Chest at any time. No restore step needed.
 
-No complex swipes. No hidden shortcuts. Just intentional taps.
-
-## The "Chest": Not for Hiding, but for Archiving
-Most launchers have a "Hide Apps" feature — but to use a hidden app,
-you have to dig into settings just to unhide it first.
-
-Literal Launcher introduces the **Chest**: a secondary space for your "Tier 2" apps.
-
-- **Direct Launch**: Apps in the Chest are launchable directly, without moving them back.
-- **Zero Clutter**: Your main list stays strictly for "Tier 1" essentials.
-- **The No-Search Logic**: Curate your main list with Renaming, archive the rest in the Chest,
-  and your active app count stays low. When your environment is this organized,
-  a search bar becomes redundant.
-
-Literal Launcher isn't about finding apps faster. It's about needing to find them less.
+Use it for apps you open once a month. They stay out of your way without becoming inaccessible.
 
 ## Who is this for?
 
 This launcher may appeal to people who:
+
 - want a distraction-free phone
 - prefer fixed tap targets over search
 - like minimalist interfaces
+- find icon grids visually overwhelming
+
+## Philosophy
+
+Literal Launcher is not a launcher that does less.
+
+It's a different model of what a phone's home screen should be.
+
+If a feature requires learning gestures or browsing menus, it probably doesn't belong here.
 
 ## Credits
-- **Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie.**
-  As a huge fan of μ's philosophy, I wanted to build my own version from scratch using Jetpack Compose.
-  Literal Launcher was born out of my personal need for integrated **Date and Battery displays**—features I felt were missing—and my desire to challenge myself by crafting the ultimate minimalist environment.
+
+Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie — a launcher built around intentional, gesture-based navigation. Literal Launcher takes a different approach: tap targets instead of gestures, text instead of icons, and date/battery display built in.
 
 ## Development
 
-Built with Kotlin and Jetpack Compose, developed in Android Studio with Gemini as a reference throughout the process.
-
-## Build
 - Kotlin / Jetpack Compose
 - Target: Android 9.0+
+- No Google APIs. No tracking.
 
+## License
+
+MIT

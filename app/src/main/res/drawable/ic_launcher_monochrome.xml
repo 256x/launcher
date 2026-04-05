@@ -10,9 +10,9 @@
       android:translateY="51.713436">
     <group android:translateY="155.39062">
       <path android:pathData="M9.921875,-0L9.921875,-100.828125L40.296875,-100.828125L40.296875,-23.765625L75.03125,-23.765625L75.03125,-0L9.921875,-0Z"
-          android:fillColor="#FFFFFF"/>
+          android:fillColor="#000000"/>
       <path android:pathData="M87.921875,0L87.921875,-100.828125L118.296875,-100.828125L118.296875,-23.765625L153.03125,-23.765625L153.03125,0L87.921875,0Z"
-          android:fillColor="#FFFFFF"/>
+          android:fillColor="#000000"/>
     </group>
   </group>
 </vector>
