@@ -92,6 +92,8 @@ Inspired by [μ launcher](https://github.com/jrpie/launcher) by jrpie — a laun
 - Target: Android 9.0+
 - No Google APIs. No tracking.
 
+This app was built with substantial assistance from [Claude](https://claude.ai) (Anthropic). AI was involved throughout development, including writing code.
+
 ## License
 
 MIT
