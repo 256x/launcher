@@ -21,7 +21,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("C:/Users/fumi/Documents/AndroidKeys/literal-launcher.jks")
+            storeFile = file(localProperties["STORE_FILE"].toString())
             storePassword = localProperties["STORE_PASSWORD"].toString()
             keyAlias = localProperties["KEY_ALIAS"].toString()
             keyPassword = localProperties["KEY_PASSWORD"].toString()
@@ -42,6 +42,10 @@ android {
         versionName = "1.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    lint {
+        disable += "Instantiatable"
     }
 
     buildTypes {
