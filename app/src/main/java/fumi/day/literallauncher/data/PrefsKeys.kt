@@ -24,6 +24,7 @@ const val SET_SLOT_LOCK = "slot_lock"
 const val PREF_CHEST_APPS = "chest_apps"
 const val PREF_RENAME_PREFIX = "rename_"
 const val PREF_BG_COLOR = "bg_color"
+const val PREF_BG_TRANSPARENT = "bg_transparent"
 const val PREF_TEXT_COLOR = "text_color"
 const val PREF_ACCENT_COLOR = "accent_color"
 

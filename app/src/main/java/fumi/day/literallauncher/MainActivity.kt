@@ -3,6 +3,7 @@ package fumi.day.literallauncher
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[LauncherViewModel::class.java]
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.setBackgroundDrawable(ColorDrawable(0))
         setContent {
             HideSystemBars()
             LiteralLauncherApp(viewModel)

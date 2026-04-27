@@ -1,5 +1,6 @@
 package fumi.day.literallauncher.ui
 
+import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +36,7 @@ import fumi.day.literallauncher.ui.screen.AppDrawerScreen
 import fumi.day.literallauncher.ui.screen.HomeScreen
 import fumi.day.literallauncher.ui.screen.SettingsScreen
 import fumi.day.literallauncher.util.expandNotifications
+import fumi.day.literallauncher.util.findActivity
 import fumi.day.literallauncher.util.launchMuDirect
 import fumi.day.literallauncher.util.parseColor
 import fumi.day.literallauncher.util.safeLower
@@ -60,6 +63,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     val slotsLocked by vm.slotsLocked.collectAsState()
     val fontIndex by vm.fontIndex.collectAsState()
     val bgColorHex by vm.bgColorHex.collectAsState()
+    val bgTransparent by vm.bgTransparent.collectAsState()
     val textColorHex by vm.textColorHex.collectAsState()
     val accentColorHex by vm.accentColorHex.collectAsState()
 
@@ -69,6 +73,18 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     val bgColor = remember(bgColorHex) { parseColor(bgColorHex) ?: Color.Black }
     val textColor = remember(textColorHex) { parseColor(textColorHex) ?: Color.White }
     val accentColor = remember(accentColorHex) { parseColor(accentColorHex) ?: Color(0xFFBB86FC) }
+    val effectiveBgColor = if (bgTransparent) Color.Transparent else bgColor
+
+    SideEffect {
+        val activity = context.findActivity()
+        if (activity != null) {
+            if (bgTransparent) {
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER)
+            } else {
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER)
+            }
+        }
+    }
 
     // Apps with renames applied, sorted — recomputed only when app list or renames change
     val appsWithRenames = remember(allApps, renameVersion) {
@@ -98,7 +114,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(bgColor)
+            .background(effectiveBgColor)
             // Swipe-up opens drawer
             .pointerInput(Unit) {
                 var swipeStartY = 0f

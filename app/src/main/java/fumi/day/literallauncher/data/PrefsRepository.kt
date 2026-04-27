@@ -30,6 +30,9 @@ class PrefsRepository(context: Context) {
     fun getBgColor(): String = prefs.getString(PREF_BG_COLOR, "") ?: ""
     fun setBgColor(v: String) = prefs.edit { putString(PREF_BG_COLOR, v) }
 
+    fun getBgTransparent(): Boolean = prefs.getBoolean(PREF_BG_TRANSPARENT, false)
+    fun setBgTransparent(v: Boolean) = prefs.edit { putBoolean(PREF_BG_TRANSPARENT, v) }
+
     fun getTextColor(): String = prefs.getString(PREF_TEXT_COLOR, "") ?: ""
     fun setTextColor(v: String) = prefs.edit { putString(PREF_TEXT_COLOR, v) }
 

@@ -53,6 +53,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     val slotsLocked = MutableStateFlow(repo.getSlotsLocked())
     val fontIndex = MutableStateFlow(repo.getFontIndex())
     val bgColorHex = MutableStateFlow(repo.getBgColor())
+    val bgTransparent = MutableStateFlow(repo.getBgTransparent())
     val textColorHex = MutableStateFlow(repo.getTextColor())
     val accentColorHex = MutableStateFlow(repo.getAccentColor())
 
@@ -131,6 +132,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun setSlotsLocked(v: Boolean) { slotsLocked.value = v; repo.setSlotsLocked(v) }
     fun setFontIndex(v: Int) { fontIndex.value = v; repo.setFontIndex(v) }
     fun setBgColor(v: String) { bgColorHex.value = v; repo.setBgColor(v) }
+    fun setBgTransparent(v: Boolean) { bgTransparent.value = v; repo.setBgTransparent(v) }
     fun setTextColor(v: String) { textColorHex.value = v; repo.setTextColor(v) }
     fun setAccentColor(v: String) { accentColorHex.value = v; repo.setAccentColor(v) }
 

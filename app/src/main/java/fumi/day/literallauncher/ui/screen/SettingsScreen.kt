@@ -83,6 +83,7 @@ fun SettingsScreen(
     val drawerRight by viewModel.drawerRight.collectAsState()
     val slotsLocked by viewModel.slotsLocked.collectAsState()
     val fontIndex by viewModel.fontIndex.collectAsState()
+    val bgTransparent by viewModel.bgTransparent.collectAsState()
     val slotStates by viewModel.slotStates.collectAsState()
     val allApps by viewModel.allApps.collectAsState()
     val renameVersion by viewModel.renameVersion.collectAsState()
@@ -184,11 +185,18 @@ fun SettingsScreen(
                         )
                     }
                     HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = dividerColor)
+                    SettingsToggleRow("transparent bg", bgTransparent, accentColor, textColor) { viewModel.setBgTransparent(it) }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        ColorDot(label = "BG", color = bgColor, textColor = textColor) { showColorPicker = "bg" }
+                        ColorDot(
+                            label = "BG",
+                            color = bgColor,
+                            textColor = if (bgTransparent) textColor.copy(alpha = 0.3f) else textColor,
+                            onClick = { if (!bgTransparent) showColorPicker = "bg" }
+                        )
                         ColorDot(label = "Text", color = textColor, textColor = textColor) { showColorPicker = "text" }
                         ColorDot(label = "Accent", color = accentColor, textColor = textColor) { showColorPicker = "accent" }
                     }
