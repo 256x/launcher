@@ -39,6 +39,9 @@ class PrefsRepository(context: Context) {
     fun getAccentColor(): String = prefs.getString(PREF_ACCENT_COLOR, "") ?: ""
     fun setAccentColor(v: String) = prefs.edit { putString(PREF_ACCENT_COLOR, v) }
 
+    fun getWidgetColor(): String = prefs.getString(PREF_WIDGET_COLOR, "") ?: ""
+    fun setWidgetColor(v: String) = prefs.edit { putString(PREF_WIDGET_COLOR, v) }
+
     fun getSlot(slot: String): String? = prefs.getString(slot, null)
     fun setSlot(slot: String, pkg: String?) = prefs.edit {
         if (pkg == null) remove(slot) else putString(slot, pkg)

@@ -72,6 +72,7 @@ fun SettingsScreen(
     bgColor: Color,
     textColor: Color,
     accentColor: Color,
+    widgetColor: Color,
     onOpenSlotPicker: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -199,6 +200,7 @@ fun SettingsScreen(
                         )
                         ColorDot(label = "Text", color = textColor, textColor = textColor) { showColorPicker = "text" }
                         ColorDot(label = "Accent", color = accentColor, textColor = textColor) { showColorPicker = "accent" }
+                        ColorDot(label = "Clock", color = widgetColor, textColor = textColor) { showColorPicker = "widget" }
                     }
                 }
             }
@@ -328,6 +330,7 @@ fun SettingsScreen(
         val initialColor = when (target) {
             "bg" -> bgColor
             "text" -> textColor
+            "widget" -> widgetColor
             else -> accentColor
         }
         ColorPickerDialog(
@@ -339,6 +342,7 @@ fun SettingsScreen(
                 when (target) {
                     "bg" -> viewModel.setBgColor(hex)
                     "text" -> viewModel.setTextColor(hex)
+                    "widget" -> viewModel.setWidgetColor(hex)
                     else -> viewModel.setAccentColor(hex)
                 }
                 showColorPicker = null

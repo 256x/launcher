@@ -41,6 +41,7 @@ fun HomeScreen(
     globalScale: Float,
     currentFont: FontFamily,
     textColor: Color,
+    widgetColor: Color,
     currentTime: LocalDateTime,
     batteryLevel: Int,
     showClock: Boolean,
@@ -77,7 +78,7 @@ fun HomeScreen(
             if (showClock) {
                 Text(
                     text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm")),
-                    color = textColor,
+                    color = widgetColor,
                     fontSize = (screenW * 0.07f * globalScale).sp,
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {
@@ -93,7 +94,7 @@ fun HomeScreen(
                     text = safeLower(
                         currentTime.format(DateTimeFormatter.ofPattern("EEEE d", Locale.ENGLISH))
                     ),
-                    color = textColor,
+                    color = widgetColor,
                     fontSize = (screenW * 0.045f * globalScale).sp,
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {
@@ -107,7 +108,7 @@ fun HomeScreen(
             if (showBattery) {
                 Text(
                     text = "$batteryLevel%",
-                    color = textColor,
+                    color = widgetColor,
                     fontSize = (screenW * 0.045f * globalScale).sp,
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {

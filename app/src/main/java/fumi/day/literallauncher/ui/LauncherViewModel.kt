@@ -56,6 +56,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     val bgTransparent = MutableStateFlow(repo.getBgTransparent())
     val textColorHex = MutableStateFlow(repo.getTextColor())
     val accentColorHex = MutableStateFlow(repo.getAccentColor())
+    val widgetColorHex = MutableStateFlow(repo.getWidgetColor())
 
     // --- Slot assignments ---
     private val _slotStates = MutableStateFlow(repo.loadAllSlots())
@@ -135,6 +136,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun setBgTransparent(v: Boolean) { bgTransparent.value = v; repo.setBgTransparent(v) }
     fun setTextColor(v: String) { textColorHex.value = v; repo.setTextColor(v) }
     fun setAccentColor(v: String) { accentColorHex.value = v; repo.setAccentColor(v) }
+    fun setWidgetColor(v: String) { widgetColorHex.value = v; repo.setWidgetColor(v) }
 
     fun setSlot(slot: String, pkg: String?) {
         repo.setSlot(slot, pkg)

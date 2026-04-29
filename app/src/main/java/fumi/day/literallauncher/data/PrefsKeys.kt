@@ -27,6 +27,7 @@ const val PREF_BG_COLOR = "bg_color"
 const val PREF_BG_TRANSPARENT = "bg_transparent"
 const val PREF_TEXT_COLOR = "text_color"
 const val PREF_ACCENT_COLOR = "accent_color"
+const val PREF_WIDGET_COLOR = "widget_color"
 
 val ALL_SLOT_IDS = listOf(
     SLOT_TOP_LEFT, SLOT_MID_LEFT, SLOT_BOT_LEFT,

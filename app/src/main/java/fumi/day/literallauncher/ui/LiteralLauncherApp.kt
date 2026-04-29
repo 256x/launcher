@@ -66,6 +66,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     val bgTransparent by vm.bgTransparent.collectAsState()
     val textColorHex by vm.textColorHex.collectAsState()
     val accentColorHex by vm.accentColorHex.collectAsState()
+    val widgetColorHex by vm.widgetColorHex.collectAsState()
 
     // Derived (cached)
     val fontFamilies = remember { listOf(FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily(Font(R.font.scopeone))) }
@@ -73,6 +74,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     val bgColor = remember(bgColorHex) { parseColor(bgColorHex) ?: Color.Black }
     val textColor = remember(textColorHex) { parseColor(textColorHex) ?: Color.White }
     val accentColor = remember(accentColorHex) { parseColor(accentColorHex) ?: Color(0xFFBB86FC) }
+    val widgetColor = remember(widgetColorHex, textColor) { parseColor(widgetColorHex) ?: textColor }
     val effectiveBgColor = if (bgTransparent) Color.Transparent else bgColor
 
     SideEffect {
@@ -147,6 +149,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
             globalScale = globalScale,
             currentFont = currentFont,
             textColor = textColor,
+            widgetColor = widgetColor,
             currentTime = currentTime,
             batteryLevel = batteryLevel,
             showClock = showClock,
@@ -190,6 +193,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
                 bgColor = bgColor,
                 textColor = textColor,
                 accentColor = accentColor,
+                widgetColor = widgetColor,
                 onOpenSlotPicker = { showPickerSlot = it },
                 onDismiss = { showSettings = false }
             )
