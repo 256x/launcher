@@ -7,6 +7,7 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/deploymentTargetSelector.xml
 .DS_Store
 /build
 /captures
@@ -14,4 +15,7 @@
 .cxx
 local.properties
 *.apk
+docs/PLAY_STORE.md
+docs/PLAY_STORE_SUBMISSION.md
+docs/play_store_assets/
 
