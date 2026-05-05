@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import fumi.day.literallauncher.data.ALL_SLOT_IDS
@@ -92,9 +93,11 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     init {
-        getApplication<Application>().registerReceiver(
+        ContextCompat.registerReceiver(
+            getApplication<Application>(),
             batteryReceiver,
-            IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            IntentFilter(Intent.ACTION_BATTERY_CHANGED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
         )
         val pkgFilter = IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED)
@@ -102,7 +105,12 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
             addAction(Intent.ACTION_PACKAGE_REPLACED)
             addDataScheme("package")
         }
-        getApplication<Application>().registerReceiver(packageReceiver, pkgFilter)
+        ContextCompat.registerReceiver(
+            getApplication<Application>(),
+            packageReceiver,
+            pkgFilter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
 
         refreshApps()
 
@@ -163,7 +171,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun getRename(pkg: String, fallback: String): String = repo.getRename(pkg, fallback)
 
     override fun onCleared() {
-        getApplication<Application>().unregisterReceiver(batteryReceiver)
-        getApplication<Application>().unregisterReceiver(packageReceiver)
+        try { getApplication<Application>().unregisterReceiver(batteryReceiver) } catch (_: Exception) {}
+        try { getApplication<Application>().unregisterReceiver(packageReceiver) } catch (_: Exception) {}
     }
 }
