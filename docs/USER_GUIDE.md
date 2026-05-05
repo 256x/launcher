@@ -68,12 +68,14 @@ Open settings by tapping the gear icon (top right of the app list).
 
 - **Font**: Default / Serif / Mono / Scope
 - **Scale**: Adjust overall UI size
+- **Transparent bg**: Show wallpaper through the home screen
 
 ### Colors
 
 - **Background**: Main screen and list background color
 - **Text**: App names, clock, date, battery
 - **Accent**: Chest title, buttons, highlights
+- **Clock**: Clock, date, and battery display color (independent of Text)
 
 ### Display
 
