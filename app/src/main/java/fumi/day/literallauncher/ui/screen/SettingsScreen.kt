@@ -354,7 +354,7 @@ All data remains on your device. Uninstalling the app removes all locally stored
 
 Our apps do not collect any personal information from anyone, including children under the age of 13.
 
-Contact: admin@fumi.day""",
+Contact: literalapps@proton.me""",
                             color = textColor,
                             fontFamily = currentFont,
                             fontSize = 13.sp
