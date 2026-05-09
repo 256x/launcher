@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,6 +55,7 @@ fun HomeScreen(
     onExpandNotifications: () -> Unit,
 ) {
     val context = LocalContext.current
+    val updatedSlotStates = rememberUpdatedState(slotStates)
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Notification expand zone (bottom center)
@@ -83,7 +85,7 @@ fun HomeScreen(
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
-                            onTap = { slotStates[SLOT_CLOCK]?.let { launchMuDirect(context, it) } },
+                            onTap = { updatedSlotStates.value[SLOT_CLOCK]?.let { launchMuDirect(context, it) } },
                             onLongPress = { if (!slotsLocked) onSlotLongPress(SLOT_CLOCK) }
                         )
                     }
@@ -99,7 +101,7 @@ fun HomeScreen(
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
-                            onTap = { slotStates[SLOT_DATE]?.let { launchMuDirect(context, it) } },
+                            onTap = { updatedSlotStates.value[SLOT_DATE]?.let { launchMuDirect(context, it) } },
                             onLongPress = { if (!slotsLocked) onSlotLongPress(SLOT_DATE) }
                         )
                     }
@@ -113,7 +115,7 @@ fun HomeScreen(
                     fontFamily = currentFont,
                     modifier = Modifier.pointerInput(slotsLocked) {
                         detectTapGestures(
-                            onTap = { slotStates[SLOT_BATTERY]?.let { launchMuDirect(context, it) } },
+                            onTap = { updatedSlotStates.value[SLOT_BATTERY]?.let { launchMuDirect(context, it) } },
                             onLongPress = { if (!slotsLocked) onSlotLongPress(SLOT_BATTERY) }
                         )
                     }
@@ -139,7 +141,7 @@ fun HomeScreen(
                         .align(align)
                         .pointerInput(slot, slotsLocked) {
                             detectTapGestures(
-                                onTap = { slotStates[slot]?.let { launchMuDirect(context, it) } },
+                                onTap = { updatedSlotStates.value[slot]?.let { launchMuDirect(context, it) } },
                                 onLongPress = { if (!slotsLocked) onSlotLongPress(slot) }
                             )
                         }

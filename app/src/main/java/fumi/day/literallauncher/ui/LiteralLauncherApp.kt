@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -95,6 +96,8 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
             .sortedBy { safeLower(it.second) }
     }
 
+    val updatedSlotStates = rememberUpdatedState(slotStates)
+
     // UI state
     var isDrawerOpen by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
@@ -138,7 +141,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
             // Double-tap / long-press on background
             .pointerInput(slotsLocked) {
                 detectTapGestures(
-                    onDoubleTap = { slotStates[SLOT_DOUBLE_TAP]?.let { launchMuDirect(context, it) } },
+                    onDoubleTap = { updatedSlotStates.value[SLOT_DOUBLE_TAP]?.let { launchMuDirect(context, it) } },
                     onLongPress = { if (!slotsLocked) showPickerSlot = SLOT_DOUBLE_TAP }
                 )
             }
