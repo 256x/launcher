@@ -96,6 +96,7 @@ fun SettingsScreen(
     val fontNames = remember { listOf("default", "serif", "mono", "scope") }
     var showColorPicker by remember { mutableStateOf<String?>(null) }
     var showSlotMenu by remember { mutableStateOf(false) }
+    var showPrivacyPolicy by remember { mutableStateOf(false) }
 
     val cardBg = textColor.copy(alpha = 0.05f)
     val dividerColor = textColor.copy(alpha = 0.15f)
@@ -278,6 +279,15 @@ fun SettingsScreen(
                 fontFamily = currentFont,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+            Text(
+                text = safeLower("Privacy Policy"),
+                color = accentColor,
+                fontSize = 12.sp,
+                fontFamily = currentFont,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { showPrivacyPolicy = true }
+            )
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
@@ -320,6 +330,41 @@ fun SettingsScreen(
             confirmButton = {
                 TextButton(onClick = { showSlotMenu = false }) {
                     Text(safeLower("done"), color = accentColor)
+                }
+            }
+        )
+    }
+
+    if (showPrivacyPolicy) {
+        AlertDialog(
+            onDismissRequest = { showPrivacyPolicy = false },
+            containerColor = bgColor,
+            title = { Text(safeLower("Privacy Policy"), color = textColor, fontFamily = currentFont) },
+            text = {
+                androidx.compose.foundation.lazy.LazyColumn {
+                    item {
+                        Text(
+                            text = """We do not collect, store, or share any personal data. All app data is stored locally on your device. We have no servers and no backend.
+
+This app does not use the internet.
+
+We do not use any analytics, advertising, crash reporting, or third-party SDKs.
+
+All data remains on your device. Uninstalling the app removes all locally stored data.
+
+Our apps do not collect any personal information from anyone, including children under the age of 13.
+
+Contact: admin@fumi.day""",
+                            color = textColor,
+                            fontFamily = currentFont,
+                            fontSize = 13.sp
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showPrivacyPolicy = false }) {
+                    Text(safeLower("close"), color = accentColor)
                 }
             }
         )
