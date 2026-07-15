@@ -20,6 +20,7 @@ const val SET_FONT_INDEX = "font_index"
 const val SET_GLOBAL_SCALE = "global_scale"
 const val SET_DRAWER_RIGHT = "drawer_right"
 const val SET_SLOT_LOCK = "slot_lock"
+const val SET_SHOW_NAV_BAR = "show_nav_bar"
 
 const val PREF_CHEST_APPS = "chest_apps"
 const val PREF_RENAME_PREFIX = "rename_"

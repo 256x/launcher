@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -83,6 +85,7 @@ fun SettingsScreen(
     val showBattery by viewModel.showBattery.collectAsState()
     val drawerRight by viewModel.drawerRight.collectAsState()
     val slotsLocked by viewModel.slotsLocked.collectAsState()
+    val showNavBar by viewModel.showNavBar.collectAsState()
     val fontIndex by viewModel.fontIndex.collectAsState()
     val bgTransparent by viewModel.bgTransparent.collectAsState()
     val slotStates by viewModel.slotStates.collectAsState()
@@ -110,7 +113,7 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.statusBars)
+                .windowInsetsPadding(WindowInsets.statusBars.union(WindowInsets.navigationBars))
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -242,7 +245,8 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     listOf(
                         Triple("controls on left", drawerRight, viewModel::setDrawerRight),
-                        Triple("lock slots", slotsLocked, viewModel::setSlotsLocked)
+                        Triple("lock slots", slotsLocked, viewModel::setSlotsLocked),
+                        Triple("show navigation bar", showNavBar, viewModel::setShowNavBar)
                     ).forEach { (label, value, setter) ->
                         SettingsToggleRow(label, value, accentColor, textColor, setter)
                     }

@@ -27,6 +27,9 @@ class PrefsRepository(context: Context) {
     fun getSlotsLocked(): Boolean = prefs.getBoolean(SET_SLOT_LOCK, false)
     fun setSlotsLocked(v: Boolean) = prefs.edit { putBoolean(SET_SLOT_LOCK, v) }
 
+    fun getShowNavBar(): Boolean = prefs.getBoolean(SET_SHOW_NAV_BAR, false)
+    fun setShowNavBar(v: Boolean) = prefs.edit { putBoolean(SET_SHOW_NAV_BAR, v) }
+
     fun getBgColor(): String = prefs.getString(PREF_BG_COLOR, "") ?: ""
     fun setBgColor(v: String) = prefs.edit { putString(PREF_BG_COLOR, v) }
 

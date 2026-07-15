@@ -52,6 +52,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     val showBattery = MutableStateFlow(repo.getShowBattery())
     val drawerRight = MutableStateFlow(repo.getDrawerRight())
     val slotsLocked = MutableStateFlow(repo.getSlotsLocked())
+    val showNavBar = MutableStateFlow(repo.getShowNavBar())
     val fontIndex = MutableStateFlow(repo.getFontIndex())
     val bgColorHex = MutableStateFlow(repo.getBgColor())
     val bgTransparent = MutableStateFlow(repo.getBgTransparent())
@@ -139,6 +140,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun setShowBattery(v: Boolean) { showBattery.value = v; repo.setShowBattery(v) }
     fun setDrawerRight(v: Boolean) { drawerRight.value = v; repo.setDrawerRight(v) }
     fun setSlotsLocked(v: Boolean) { slotsLocked.value = v; repo.setSlotsLocked(v) }
+    fun setShowNavBar(v: Boolean) { showNavBar.value = v; repo.setShowNavBar(v) }
     fun setFontIndex(v: Int) { fontIndex.value = v; repo.setFontIndex(v) }
     fun setBgColor(v: String) { bgColorHex.value = v; repo.setBgColor(v) }
     fun setBgTransparent(v: Boolean) { bgTransparent.value = v; repo.setBgTransparent(v) }

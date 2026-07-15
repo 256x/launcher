@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -93,6 +94,7 @@ fun AppDrawerScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .navigationBarsPadding()
                 .padding(horizontal = (screenW * 0.12f).dp, vertical = 80.dp)
         ) {
             LazyColumn(
@@ -133,6 +135,7 @@ fun AppDrawerScreen(
         Box(
             modifier = Modifier
                 .align(if (drawerRight) Alignment.BottomStart else Alignment.BottomEnd)
+                .navigationBarsPadding()
                 .padding(30.dp)
                 .border(1.dp, borderColor, RoundedCornerShape(12.dp))
                 .clickable { showChestItems = true }
