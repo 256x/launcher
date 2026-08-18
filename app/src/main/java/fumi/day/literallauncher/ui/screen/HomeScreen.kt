@@ -30,8 +30,9 @@ import fumi.day.literallauncher.data.SLOT_MID_LEFT
 import fumi.day.literallauncher.data.SLOT_MID_RIGHT
 import fumi.day.literallauncher.data.SLOT_TOP_LEFT
 import fumi.day.literallauncher.data.SLOT_TOP_RIGHT
+import fumi.day.literallauncher.util.TextCase
+import fumi.day.literallauncher.util.applyTextCase
 import fumi.day.literallauncher.util.launchMuDirect
-import fumi.day.literallauncher.util.safeLower
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -49,6 +50,7 @@ fun HomeScreen(
     showClock: Boolean,
     showDate: Boolean,
     showBattery: Boolean,
+    dateCase: TextCase,
     isDrawerOpen: Boolean,
     slotStates: Map<String, String?>,
     slotsLocked: Boolean,
@@ -94,8 +96,9 @@ fun HomeScreen(
             }
             if (showDate) {
                 Text(
-                    text = safeLower(
-                        currentTime.format(DateTimeFormatter.ofPattern("EEEE d", Locale.ENGLISH))
+                    text = applyTextCase(
+                        currentTime.format(DateTimeFormatter.ofPattern("EEEE d", Locale.ENGLISH)),
+                        dateCase
                     ),
                     color = widgetColor,
                     fontSize = (screenW * 0.045f * globalScale).sp,

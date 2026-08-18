@@ -63,6 +63,7 @@ import fumi.day.literallauncher.data.SLOT_TOP_LEFT
 import fumi.day.literallauncher.data.SLOT_TOP_RIGHT
 import fumi.day.literallauncher.ui.LauncherViewModel
 import fumi.day.literallauncher.ui.component.ColorPickerDialog
+import fumi.day.literallauncher.util.TextCase
 import fumi.day.literallauncher.util.colorToHex
 import fumi.day.literallauncher.util.safeLower
 import kotlin.math.roundToInt
@@ -91,12 +92,17 @@ fun SettingsScreen(
     val slotStates by viewModel.slotStates.collectAsState()
     val allApps by viewModel.allApps.collectAsState()
     val renameVersion by viewModel.renameVersion.collectAsState()
+    val dateCase by viewModel.dateCase.collectAsState()
+    val appListCase by viewModel.appListCase.collectAsState()
 
     val versionName = remember {
         try { context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "" }
         catch (_: Exception) { "" }
     }
     val fontNames = remember { listOf("default", "serif", "mono", "scope") }
+    val caseOptions = remember {
+        listOf(TextCase.LOWERCASE to "lowercase", TextCase.UPPERCASE to "UPPERCASE", TextCase.TITLECASE to "Title Case")
+    }
     var showColorPicker by remember { mutableStateOf<String?>(null) }
     var showSlotMenu by remember { mutableStateOf(false) }
     var showPrivacyPolicy by remember { mutableStateOf(false) }
@@ -228,6 +234,16 @@ fun SettingsScreen(
                     ).forEach { (label, value, setter) ->
                         SettingsToggleRow(label, value, accentColor, textColor, setter)
                     }
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = dividerColor)
+                    CaseSelectorRow(
+                        label = "date case",
+                        selected = dateCase,
+                        options = caseOptions,
+                        accentColor = accentColor,
+                        textColor = textColor,
+                        currentFont = currentFont,
+                        onSelected = { viewModel.setDateCase(it) }
+                    )
                 }
             }
 
@@ -250,6 +266,16 @@ fun SettingsScreen(
                     ).forEach { (label, value, setter) ->
                         SettingsToggleRow(label, value, accentColor, textColor, setter)
                     }
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = dividerColor)
+                    CaseSelectorRow(
+                        label = "app list case",
+                        selected = appListCase,
+                        options = caseOptions,
+                        accentColor = accentColor,
+                        textColor = textColor,
+                        currentFont = currentFont,
+                        onSelected = { viewModel.setAppListCase(it) }
+                    )
                 }
             }
 
@@ -420,6 +446,35 @@ private fun ColorDot(label: String, color: Color, textColor: Color, onClick: () 
             style = MaterialTheme.typography.labelSmall,
             color = textColor
         )
+    }
+}
+
+@Composable
+private fun CaseSelectorRow(
+    label: String,
+    selected: TextCase,
+    options: List<Pair<TextCase, String>>,
+    accentColor: Color,
+    textColor: Color,
+    currentFont: FontFamily,
+    onSelected: (TextCase) -> Unit
+) {
+    Column(modifier = Modifier.padding(vertical = 4.dp)) {
+        Text(safeLower(label), color = textColor, style = MaterialTheme.typography.bodyMedium)
+        Spacer(modifier = Modifier.height(6.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            options.forEach { (case, name) ->
+                FilterChip(
+                    selected = selected == case,
+                    onClick = { onSelected(case) },
+                    label = { Text(name, fontFamily = currentFont) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = accentColor.copy(alpha = 0.2f),
+                        selectedLabelColor = accentColor
+                    )
+                )
+            }
+        }
     }
 }
 

@@ -24,3 +24,18 @@ fun colorToHex(color: Color): String {
 }
 
 fun safeLower(text: String): String = text.lowercase(Locale.ENGLISH)
+
+enum class TextCase(val storageValue: Int) {
+    LOWERCASE(0), UPPERCASE(1), TITLECASE(2);
+    companion object {
+        fun fromStorageValue(v: Int): TextCase = entries.find { it.storageValue == v } ?: LOWERCASE
+    }
+}
+
+fun applyTextCase(text: String, case: TextCase): String = when (case) {
+    TextCase.LOWERCASE -> text.lowercase(Locale.ENGLISH)
+    TextCase.UPPERCASE -> text.uppercase(Locale.ENGLISH)
+    TextCase.TITLECASE -> text.lowercase(Locale.ENGLISH)
+        .split(" ")
+        .joinToString(" ") { w -> w.replaceFirstChar { it.titlecase(Locale.ENGLISH) } }
+}

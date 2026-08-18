@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import fumi.day.literallauncher.data.ALL_SLOT_IDS
 import fumi.day.literallauncher.data.PrefsRepository
+import fumi.day.literallauncher.util.TextCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,12 +30,17 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repo = PrefsRepository(app)
 
+    private fun readBatteryLevel(context: Context): Int {
+        val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+        return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    }
+
     // --- Time ---
     private val _currentTime = MutableStateFlow(LocalDateTime.now())
     val currentTime: StateFlow<LocalDateTime> = _currentTime.asStateFlow()
 
     // --- Battery ---
-    private val _batteryLevel = MutableStateFlow(0)
+    private val _batteryLevel = MutableStateFlow(readBatteryLevel(app))
     val batteryLevel: StateFlow<Int> = _batteryLevel.asStateFlow()
 
     // --- App list ---
@@ -59,6 +65,8 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     val textColorHex = MutableStateFlow(repo.getTextColor())
     val accentColorHex = MutableStateFlow(repo.getAccentColor())
     val widgetColorHex = MutableStateFlow(repo.getWidgetColor())
+    val dateCase = MutableStateFlow(TextCase.fromStorageValue(repo.getDateCase()))
+    val appListCase = MutableStateFlow(TextCase.fromStorageValue(repo.getAppListCase()))
 
     // --- Slot assignments ---
     private val _slotStates = MutableStateFlow(repo.loadAllSlots())
@@ -147,6 +155,8 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun setTextColor(v: String) { textColorHex.value = v; repo.setTextColor(v) }
     fun setAccentColor(v: String) { accentColorHex.value = v; repo.setAccentColor(v) }
     fun setWidgetColor(v: String) { widgetColorHex.value = v; repo.setWidgetColor(v) }
+    fun setDateCase(v: TextCase) { dateCase.value = v; repo.setDateCase(v.storageValue) }
+    fun setAppListCase(v: TextCase) { appListCase.value = v; repo.setAppListCase(v.storageValue) }
 
     fun setSlot(slot: String, pkg: String?) {
         repo.setSlot(slot, pkg)

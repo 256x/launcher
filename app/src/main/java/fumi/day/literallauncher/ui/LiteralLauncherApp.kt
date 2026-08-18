@@ -68,6 +68,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
     val textColorHex by vm.textColorHex.collectAsState()
     val accentColorHex by vm.accentColorHex.collectAsState()
     val widgetColorHex by vm.widgetColorHex.collectAsState()
+    val dateCase by vm.dateCase.collectAsState()
 
     // Derived (cached)
     val fontFamilies = remember { listOf(FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily(Font(R.font.scopeone))) }
@@ -158,6 +159,7 @@ fun LiteralLauncherApp(vm: LauncherViewModel = viewModel()) {
             showClock = showClock,
             showDate = showDate,
             showBattery = showBattery,
+            dateCase = dateCase,
             isDrawerOpen = isDrawerOpen,
             slotStates = slotStates,
             slotsLocked = slotsLocked,

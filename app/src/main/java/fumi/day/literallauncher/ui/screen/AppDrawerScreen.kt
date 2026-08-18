@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import fumi.day.literallauncher.ui.LauncherViewModel
+import fumi.day.literallauncher.util.applyTextCase
 import fumi.day.literallauncher.util.launchMuDirect
 import fumi.day.literallauncher.util.safeLower
 
@@ -67,6 +68,7 @@ fun AppDrawerScreen(
     val chestApps by viewModel.chestApps.collectAsState()
     val renameVersion by viewModel.renameVersion.collectAsState()
     val drawerRight by viewModel.drawerRight.collectAsState()
+    val appListCase by viewModel.appListCase.collectAsState()
     val listState = rememberLazyListState()
 
     var selectedAppForMenu by remember { mutableStateOf<Pair<String, String>?>(null) }
@@ -112,7 +114,7 @@ fun AppDrawerScreen(
                         contentAlignment = if (drawerRight) Alignment.CenterEnd else Alignment.CenterStart
                     ) {
                         Text(
-                            text = safeLower(displayName),
+                            text = applyTextCase(displayName, appListCase),
                             color = textColor,
                             fontSize = (screenW * 0.045f * globalScale).sp,
                             fontFamily = currentFont,
@@ -165,7 +167,7 @@ fun AppDrawerScreen(
             AlertDialog(
                 onDismissRequest = { selectedAppForMenu = null },
                 containerColor = bgColor,
-                title = { Text(safeLower(name), color = textColor, fontFamily = currentFont) },
+                title = { Text(applyTextCase(name, appListCase), color = textColor, fontFamily = currentFont) },
                 text = {
                     Column {
                         listOf(
@@ -223,7 +225,7 @@ fun AppDrawerScreen(
                                     modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
                                 ) {
                                     Text(
-                                        text = safeLower(displayName),
+                                        text = applyTextCase(displayName, appListCase),
                                         color = textColor,
                                         fontFamily = currentFont,
                                         fontSize = (screenW * 0.045f * globalScale).sp,
