@@ -1,0 +1,3 @@
+New: date and app list text can each be set to lowercase, UPPERCASE, or Title Case in Settings.
+
+Fixed battery level showing 0% on first launch.
