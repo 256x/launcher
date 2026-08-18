@@ -9,6 +9,7 @@ if (localPropertiesFile.exists()) {
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.play.publisher)
 }
 
 android {
@@ -38,8 +39,8 @@ android {
         applicationId = "fumi.day.literallauncher"
         minSdk = 28
         targetSdk = 36
-        versionCode = 22
-        versionName = "1.5.1"
+        versionCode = 23
+        versionName = "1.5.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,4 +78,10 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+play {
+    serviceAccountCredentials = file("/home/fumi/Documents/AndroidKeys/play-publisher.json")
+    defaultToAppBundles = true
+    track.set("production")
 }
