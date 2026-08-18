@@ -43,7 +43,7 @@ Rarely-used apps go into the Chest: out of sight, but still directly launchable.
 - **Text-only list**: No icons. App names only, in your choice of font
 - **Chest**: A secondary space for Tier 2 apps — hidden but directly launchable
 - **Renaming**: Custom display names for any app
-- **Customize**: Font, UI scale, drawer alignment for left-hand use
+- **Customize**: Font, UI scale, text case (lowercase/UPPERCASE/Title Case) for date and app list, drawer alignment for left-hand use
 
 ## Why no icons?
 

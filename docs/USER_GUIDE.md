@@ -40,7 +40,7 @@ A text-only alphabetical list of your installed apps.
 
 ### Renaming Tips
 
-All names are displayed in lowercase. Use prefixes to control sort order:
+Names are displayed in lowercase by default (change this in Settings → Display). Use prefixes to control sort order:
 
 - `a_` prefix → floats to the top of the list
 - `z_` prefix → sinks to the bottom
@@ -81,10 +81,13 @@ Open settings by tapping the gear icon (top right of the app list).
 
 Toggle visibility of **Clock**, **Date**, and **Battery** on the home screen.
 
+- **Date case**: lowercase / UPPERCASE / Title Case for the day-of-week display
+
 ### Layout
 
 - **Controls on left**: Moves the app list and Chest button to the right side for left-hand use
 - **Lock slots**: Prevents accidental long-press slot reassignment
+- **App list case**: lowercase / UPPERCASE / Title Case for app names in the drawer
 
 ### Slots
 
@@ -92,4 +95,4 @@ Assign apps to all slots from a single screen — an alternative to long-pressin
 
 ---
 
-*All text in the UI is displayed in lowercase.*
+*Fixed UI labels (buttons, menus) are always lowercase. Date and app list case are configurable in Settings.*
