@@ -87,6 +87,7 @@ Toggle visibility of **Clock**, **Date**, and **Battery** on the home screen.
 
 - **Controls on left**: Moves the app list and Chest button to the right side for left-hand use
 - **Lock slots**: Prevents accidental long-press slot reassignment
+- **List spacing**: Adjusts the vertical gap between app names in the drawer (0-32dp)
 - **App list case**: lowercase / UPPERCASE / Title Case for app names in the drawer
 
 ### Slots
