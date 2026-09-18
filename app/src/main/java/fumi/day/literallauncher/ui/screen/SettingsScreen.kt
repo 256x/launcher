@@ -92,6 +92,7 @@ fun SettingsScreen(
     val slotStates by viewModel.slotStates.collectAsState()
     val allApps by viewModel.allApps.collectAsState()
     val renameVersion by viewModel.renameVersion.collectAsState()
+    val listSpacing by viewModel.listSpacing.collectAsState()
     val dateCase by viewModel.dateCase.collectAsState()
     val appListCase by viewModel.appListCase.collectAsState()
 
@@ -265,6 +266,32 @@ fun SettingsScreen(
                         Triple("show navigation bar", showNavBar, viewModel::setShowNavBar)
                     ).forEach { (label, value, setter) ->
                         SettingsToggleRow(label, value, accentColor, textColor, setter)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            safeLower("List spacing"),
+                            color = textColor,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Slider(
+                            value = listSpacing,
+                            onValueChange = { viewModel.setListSpacing(it) },
+                            valueRange = 0f..32f,
+                            modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
+                            colors = SliderDefaults.colors(
+                                thumbColor = accentColor,
+                                activeTrackColor = accentColor
+                            )
+                        )
+                        Text(
+                            text = "${listSpacing.roundToInt()}dp",
+                            color = textColor,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                     HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = dividerColor)
                     CaseSelectorRow(

@@ -23,6 +23,7 @@ const val SET_SLOT_LOCK = "slot_lock"
 const val SET_SHOW_NAV_BAR = "show_nav_bar"
 const val SET_DATE_CASE = "date_case"
 const val SET_APP_LIST_CASE = "app_list_case"
+const val SET_LIST_SPACING = "list_spacing"
 
 const val PREF_CHEST_APPS = "chest_apps"
 const val PREF_RENAME_PREFIX = "rename_"

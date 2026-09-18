@@ -67,6 +67,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     val widgetColorHex = MutableStateFlow(repo.getWidgetColor())
     val dateCase = MutableStateFlow(TextCase.fromStorageValue(repo.getDateCase()))
     val appListCase = MutableStateFlow(TextCase.fromStorageValue(repo.getAppListCase()))
+    val listSpacing = MutableStateFlow(repo.getListSpacing())
 
     // --- Slot assignments ---
     private val _slotStates = MutableStateFlow(repo.loadAllSlots())
@@ -157,6 +158,7 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     fun setWidgetColor(v: String) { widgetColorHex.value = v; repo.setWidgetColor(v) }
     fun setDateCase(v: TextCase) { dateCase.value = v; repo.setDateCase(v.storageValue) }
     fun setAppListCase(v: TextCase) { appListCase.value = v; repo.setAppListCase(v.storageValue) }
+    fun setListSpacing(v: Float) { listSpacing.value = v; repo.setListSpacing(v) }
 
     fun setSlot(slot: String, pkg: String?) {
         repo.setSlot(slot, pkg)

@@ -69,6 +69,7 @@ fun AppDrawerScreen(
     val renameVersion by viewModel.renameVersion.collectAsState()
     val drawerRight by viewModel.drawerRight.collectAsState()
     val appListCase by viewModel.appListCase.collectAsState()
+    val listSpacing by viewModel.listSpacing.collectAsState()
     val listState = rememberLazyListState()
 
     var selectedAppForMenu by remember { mutableStateOf<Pair<String, String>?>(null) }
@@ -110,7 +111,7 @@ fun AppDrawerScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 12.dp),
+                            .padding(vertical = listSpacing.dp),
                         contentAlignment = if (drawerRight) Alignment.CenterEnd else Alignment.CenterStart
                     ) {
                         Text(

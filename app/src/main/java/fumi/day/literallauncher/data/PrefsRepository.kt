@@ -36,6 +36,9 @@ class PrefsRepository(context: Context) {
     fun getAppListCase(): Int = prefs.getInt(SET_APP_LIST_CASE, 0)
     fun setAppListCase(v: Int) = prefs.edit { putInt(SET_APP_LIST_CASE, v) }
 
+    fun getListSpacing(): Float = prefs.getFloat(SET_LIST_SPACING, 12f)
+    fun setListSpacing(v: Float) = prefs.edit { putFloat(SET_LIST_SPACING, v) }
+
     fun getBgColor(): String = prefs.getString(PREF_BG_COLOR, "") ?: ""
     fun setBgColor(v: String) = prefs.edit { putString(PREF_BG_COLOR, v) }
 
