@@ -42,6 +42,7 @@ Rarely-used apps go into the Chest: out of sight, but still directly launchable.
 - **App Slots**: Assign apps to 10 fixed launch positions on the screen
 - **Text-only list**: No icons. App names only, in your choice of font
 - **Chest**: A secondary space for Tier 2 apps — hidden but directly launchable
+- **Warehouse**: Deep storage for apps you never launch — out of the list and the Chest, managed from Settings
 - **Renaming**: Custom display names for any app
 - **Customize**: Font, UI scale, list spacing, text case (lowercase/UPPERCASE/Title Case) for date and app list, drawer alignment for left-hand use
 
@@ -64,6 +65,8 @@ Most launchers let you hide apps — but hidden apps require a trip to settings 
 The Chest works differently. Apps in the Chest are removed from your main list, but remain **directly launchable** from the Chest at any time. No restore step needed.
 
 Use it for apps you open once a month. They stay out of your way without becoming inaccessible.
+
+For apps you almost never touch, there is the **Warehouse**: one level deeper, gone from both the list and the Chest. Open it from Settings to launch an app or send it back to the Chest.
 
 ## Who is this for?
 

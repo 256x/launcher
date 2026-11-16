@@ -1,1 +1,1 @@
-New: app list spacing is now adjustable in Settings > Layout.
+New: the Chest is now a bottom sheet. New: Warehouse, deep storage for apps you never use (Settings > Warehouse). Chest actions use icons.

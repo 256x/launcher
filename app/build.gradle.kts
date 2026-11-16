@@ -39,8 +39,8 @@ android {
         applicationId = "fumi.day.literallauncher"
         minSdk = 28
         targetSdk = 36
-        versionCode = 24
-        versionName = "1.5.3"
+        versionCode = 25
+        versionName = "1.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

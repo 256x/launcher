@@ -2,6 +2,15 @@ package fumi.day.literallauncher.ui.screen
 
 import android.content.Intent
 import android.provider.Settings
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,7 +32,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -66,6 +77,7 @@ fun AppDrawerScreen(
     val context = LocalContext.current
     val allApps by viewModel.allApps.collectAsState()
     val chestApps by viewModel.chestApps.collectAsState()
+    val warehouseApps by viewModel.warehouseApps.collectAsState()
     val renameVersion by viewModel.renameVersion.collectAsState()
     val drawerRight by viewModel.drawerRight.collectAsState()
     val appListCase by viewModel.appListCase.collectAsState()
@@ -76,9 +88,9 @@ fun AppDrawerScreen(
     var showChestItems by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf<Pair<String, String>?>(null) }
 
-    val visibleApps = remember(chestApps, renameVersion, allApps) {
+    val visibleApps = remember(chestApps, warehouseApps, renameVersion, allApps) {
         allApps
-            .filter { it.first !in chestApps }
+            .filter { it.first !in chestApps && it.first !in warehouseApps }
             .map { (pkg, name) -> pkg to viewModel.getRename(pkg, name) }
             .sortedBy { safeLower(it.second) }
     }
@@ -180,6 +192,10 @@ fun AppDrawerScreen(
                                 viewModel.addToChest(pkg)
                                 selectedAppForMenu = null
                             },
+                            "send to warehouse" to {
+                                viewModel.moveToWarehouse(pkg)
+                                selectedAppForMenu = null
+                            },
                             "app info" to {
                                 context.startActivity(
                                     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -203,62 +219,122 @@ fun AppDrawerScreen(
             )
         }
 
-        // Chest dialog
-        if (showChestItems) {
-            val appsInChest = remember(chestApps, renameVersion, allApps) {
-                allApps
-                    .filter { it.first in chestApps }
-                    .map { (pkg, name) -> pkg to viewModel.getRename(pkg, name) }
-                    .sortedBy { safeLower(it.second) }
-            }
-            AlertDialog(
-                onDismissRequest = { showChestItems = false },
-                containerColor = bgColor,
-                title = { Text(safeLower("chest"), color = accentColor, fontFamily = currentFont) },
-                text = {
-                    if (appsInChest.isEmpty()) {
-                        Text(safeLower("chest is empty"), color = secondaryText)
-                    } else {
-                        LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
-                            items(appsInChest, key = { it.first }) { (pkg, displayName) ->
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
-                                ) {
-                                    Text(
-                                        text = applyTextCase(displayName, appListCase),
-                                        color = textColor,
-                                        fontFamily = currentFont,
-                                        fontSize = (screenW * 0.045f * globalScale).sp,
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .clickable {
-                                                launchMuDirect(context, pkg)
-                                                onAppClick()
-                                                showChestItems = false
-                                            }
-                                            .padding(horizontal = 8.dp, vertical = 8.dp)
-                                    )
-                                    Text(
-                                        text = safeLower("restore"),
-                                        color = secondaryText,
-                                        fontFamily = currentFont,
-                                        fontSize = (screenW * 0.035f * globalScale).sp,
-                                        modifier = Modifier
-                                            .clickable { viewModel.removeFromChest(pkg) }
-                                            .padding(horizontal = 8.dp, vertical = 8.dp)
-                                    )
-                                }
+        // Chest: bottom sheet (full width, ~65% height)
+        BackHandler(enabled = showChestItems) { showChestItems = false }
+        val appsInChest = remember(chestApps, renameVersion, allApps) {
+            allApps
+                .filter { it.first in chestApps }
+                .map { (pkg, name) -> pkg to viewModel.getRename(pkg, name) }
+                .sortedBy { safeLower(it.second) }
+        }
+        AnimatedVisibility(
+            visible = showChestItems,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { showChestItems = false }
+            )
+        }
+        AnimatedVisibility(
+            visible = showChestItems,
+            modifier = Modifier.align(Alignment.BottomCenter),
+            enter = slideInVertically(initialOffsetY = { it }),
+            exit = slideOutVertically(targetOffsetY = { it })
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.75f)
+                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                    .background(bgColor)
+                    .background(textColor.copy(alpha = 0.06f))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { }
+                    .navigationBarsPadding()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .width(36.dp)
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(textColor.copy(alpha = 0.3f))
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        safeLower("chest"),
+                        color = accentColor,
+                        fontFamily = currentFont,
+                        fontSize = (screenW * 0.05f * globalScale).sp,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        safeLower("done"),
+                        color = accentColor,
+                        fontFamily = currentFont,
+                        modifier = Modifier.clickable { showChestItems = false }.padding(8.dp)
+                    )
+                }
+                if (appsInChest.isEmpty()) {
+                    Text(safeLower("chest is empty"), color = secondaryText, fontFamily = currentFont)
+                } else {
+                    LazyColumn(modifier = Modifier.weight(1f)) {
+                        items(appsInChest, key = { it.first }) { (pkg, displayName) ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = applyTextCase(displayName, appListCase),
+                                    color = textColor,
+                                    fontFamily = currentFont,
+                                    fontSize = (screenW * 0.045f * globalScale).sp,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clickable {
+                                            launchMuDirect(context, pkg)
+                                            onAppClick()
+                                            showChestItems = false
+                                        }
+                                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Archive,
+                                    contentDescription = "Send to warehouse",
+                                    tint = secondaryText,
+                                    modifier = Modifier
+                                        .clickable { viewModel.moveToWarehouse(pkg) }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                                        .size((screenW * 0.055f * globalScale).dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Unarchive,
+                                    contentDescription = "Restore to list",
+                                    tint = secondaryText,
+                                    modifier = Modifier
+                                        .clickable { viewModel.removeFromChest(pkg) }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                                        .size((screenW * 0.055f * globalScale).dp)
+                                )
                             }
                         }
                     }
-                },
-                confirmButton = {
-                    TextButton(onClick = { showChestItems = false }) {
-                        Text(safeLower("done"), color = accentColor)
-                    }
                 }
-            )
+            }
         }
 
         // Rename dialog

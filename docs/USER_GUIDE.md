@@ -36,6 +36,7 @@ A text-only alphabetical list of your installed apps.
 
 - **rename**: Change the display name shown in the list
 - **send to chest**: Remove the app from the main list and place it in the Chest
+- **send to warehouse**: Remove the app from the main list and store it in the Warehouse
 - **app info**: Open system app settings
 
 ### Renaming Tips
@@ -51,12 +52,26 @@ Names are displayed in lowercase by default (change this in Settings → Display
 
 The Chest holds apps you rarely use — out of sight, but directly launchable.
 
-Open the Chest by tapping the **chest** button at the bottom corner of the app list.
+Open the Chest by tapping the **chest** button at the bottom corner of the app list. It slides up as a bottom sheet covering about 75% of the screen. Tap outside the sheet, press Back, or tap **done** to close it.
 
 - **Tap an app name**: Launch it directly
-- **restore**: Move the app back to the main list
+- **Unarchive icon**: Move the app back to the main list
+- **Archive icon**: Send the app to the Warehouse
 
 Unlike hidden apps in other launchers, Chest apps don't need to be "unhidden" before use. They're just one extra tap away.
+
+---
+
+## The Warehouse
+
+The Warehouse is deep storage for apps you (almost) never open. Apps in the Warehouse are hidden from both the app list and the Chest.
+
+Open it from **Settings → Warehouse**.
+
+- **Tap an app name**: Launch it directly
+- **Unarchive icon**: Move the app to the Chest
+
+Apps assigned to a slot can still be launched from the home screen, even while in the Warehouse.
 
 ---
 

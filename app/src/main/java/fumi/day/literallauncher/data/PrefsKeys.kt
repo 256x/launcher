@@ -26,6 +26,7 @@ const val SET_APP_LIST_CASE = "app_list_case"
 const val SET_LIST_SPACING = "list_spacing"
 
 const val PREF_CHEST_APPS = "chest_apps"
+const val PREF_WAREHOUSE_APPS = "warehouse_apps"
 const val PREF_RENAME_PREFIX = "rename_"
 const val PREF_BG_COLOR = "bg_color"
 const val PREF_BG_TRANSPARENT = "bg_transparent"

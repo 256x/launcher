@@ -77,6 +77,10 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
     private val _chestApps = MutableStateFlow(repo.getChestApps())
     val chestApps: StateFlow<Set<String>> = _chestApps.asStateFlow()
 
+    // --- Warehouse (hidden from drawer and chest; reachable from settings) ---
+    private val _warehouseApps = MutableStateFlow(repo.getWarehouseApps())
+    val warehouseApps: StateFlow<Set<String>> = _warehouseApps.asStateFlow()
+
     // --- Rename version: incrementing triggers recomposition in consumers ---
     private val _renameVersion = MutableStateFlow(0)
     val renameVersion: StateFlow<Int> = _renameVersion.asStateFlow()
@@ -175,6 +179,20 @@ class LauncherViewModel(app: Application) : AndroidViewModel(app) {
         val new = _chestApps.value - pkg
         repo.setChestApps(new)
         _chestApps.value = new
+    }
+
+    fun moveToWarehouse(pkg: String) {
+        removeFromChest(pkg)
+        val new = _warehouseApps.value + pkg
+        repo.setWarehouseApps(new)
+        _warehouseApps.value = new
+    }
+
+    fun restoreFromWarehouse(pkg: String) {
+        val new = _warehouseApps.value - pkg
+        repo.setWarehouseApps(new)
+        _warehouseApps.value = new
+        addToChest(pkg)
     }
 
     fun setRename(pkg: String, name: String?) {

@@ -22,6 +22,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Unarchive
+import androidx.compose.material3.Icon
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -65,6 +71,7 @@ import fumi.day.literallauncher.ui.LauncherViewModel
 import fumi.day.literallauncher.ui.component.ColorPickerDialog
 import fumi.day.literallauncher.util.TextCase
 import fumi.day.literallauncher.util.colorToHex
+import fumi.day.literallauncher.util.launchMuDirect
 import fumi.day.literallauncher.util.safeLower
 import kotlin.math.roundToInt
 
@@ -95,6 +102,7 @@ fun SettingsScreen(
     val listSpacing by viewModel.listSpacing.collectAsState()
     val dateCase by viewModel.dateCase.collectAsState()
     val appListCase by viewModel.appListCase.collectAsState()
+    val warehouseApps by viewModel.warehouseApps.collectAsState()
 
     val versionName = remember {
         try { context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "" }
@@ -106,6 +114,7 @@ fun SettingsScreen(
     }
     var showColorPicker by remember { mutableStateOf<String?>(null) }
     var showSlotMenu by remember { mutableStateOf(false) }
+    var showWarehouse by remember { mutableStateOf(false) }
     var showPrivacyPolicy by remember { mutableStateOf(false) }
 
     val cardBg = textColor.copy(alpha = 0.05f)
@@ -328,6 +337,28 @@ fun SettingsScreen(
                 }
             }
 
+            // Warehouse
+            Card(
+                colors = CardDefaults.cardColors(containerColor = cardBg),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        safeLower("Warehouse"),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = secondaryText
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = { showWarehouse = true },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = accentColor.copy(alpha = 0.2f))
+                    ) {
+                        Text(safeLower("open warehouse (${warehouseApps.size})"), color = accentColor, fontFamily = currentFont)
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Literal Launcher v$versionName",
@@ -347,6 +378,59 @@ fun SettingsScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+
+    // Warehouse dialog
+    if (showWarehouse) {
+        val appsInWarehouse = remember(warehouseApps, allApps, renameVersion) {
+            allApps
+                .filter { it.first in warehouseApps }
+                .map { (pkg, name) -> pkg to viewModel.getRename(pkg, name) }
+                .sortedBy { safeLower(it.second) }
+        }
+        AlertDialog(
+            onDismissRequest = { showWarehouse = false },
+            containerColor = bgColor,
+            title = { Text(safeLower("warehouse"), color = accentColor, fontFamily = currentFont) },
+            text = {
+                if (appsInWarehouse.isEmpty()) {
+                    Text(safeLower("warehouse is empty"), color = secondaryText, fontFamily = currentFont)
+                } else {
+                    LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
+                        items(appsInWarehouse, key = { it.first }) { (pkg, displayName) ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = displayName,
+                                    color = textColor,
+                                    fontFamily = currentFont,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clickable { launchMuDirect(context, pkg) }
+                                        .padding(8.dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Unarchive,
+                                    contentDescription = "Restore to chest",
+                                    tint = secondaryText,
+                                    modifier = Modifier
+                                        .clickable { viewModel.restoreFromWarehouse(pkg) }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                                        .size(24.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showWarehouse = false }) {
+                    Text(safeLower("done"), color = accentColor)
+                }
+            }
+        )
     }
 
     // Slot assignment dialog

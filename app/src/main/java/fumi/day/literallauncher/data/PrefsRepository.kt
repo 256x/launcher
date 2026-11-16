@@ -63,6 +63,9 @@ class PrefsRepository(context: Context) {
     fun getChestApps(): Set<String> = prefs.getStringSet(PREF_CHEST_APPS, emptySet()) ?: emptySet()
     fun setChestApps(apps: Set<String>) = prefs.edit { putStringSet(PREF_CHEST_APPS, apps) }
 
+    fun getWarehouseApps(): Set<String> = prefs.getStringSet(PREF_WAREHOUSE_APPS, emptySet()) ?: emptySet()
+    fun setWarehouseApps(apps: Set<String>) = prefs.edit { putStringSet(PREF_WAREHOUSE_APPS, apps) }
+
     fun getRename(pkg: String, fallback: String): String =
         prefs.getString("$PREF_RENAME_PREFIX$pkg", fallback) ?: fallback
 
