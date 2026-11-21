@@ -2,17 +2,18 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="156"
-    android:viewportHeight="191.53125">
-  <group android:scaleX="0.3746647"
-      android:scaleY="0.46"
-      android:translateX="48.776154"
-      android:translateY="51.713436">
-    <group android:translateY="155.39062">
-      <path android:pathData="M9.921875,-0L9.921875,-100.828125L40.296875,-100.828125L40.296875,-23.765625L75.03125,-23.765625L75.03125,-0L9.921875,-0Z"
-          android:fillColor="#000000"/>
-      <path android:pathData="M87.921875,0L87.921875,-100.828125L118.296875,-100.828125L118.296875,-23.765625L153.03125,-23.765625L153.03125,0L87.921875,0Z"
-          android:fillColor="#000000"/>
-    </group>
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+  <group
+      android:scaleX="0.04"
+      android:scaleY="-0.04"
+      android:translateX="63.68"
+      android:translateY="138.66">
+    <path
+        android:pathData="M141 0V1434H573V338H1067V0Z"
+        android:fillColor="#FFFFFF"/>
+    <path
+        android:pathData="M1249.0 0.0V1434.0H1681.0V338.0H2175.0V0.0H1249.0Z"
+        android:fillColor="#FFFFFF"/>
   </group>
 </vector>
