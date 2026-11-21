@@ -1,1 +1,1 @@
-New: the Chest is now a bottom sheet. New: Warehouse, deep storage for apps you never use (Settings > Warehouse). Chest actions use icons.
+Enlarged the launcher icon lettering to match the other Literal apps.
